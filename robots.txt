@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://caguthrie.github.io/sitemap.xml 
