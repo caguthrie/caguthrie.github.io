@@ -5,7 +5,7 @@ date: 2014-02-12 13:35:30 -0500
 comments: true
 categories: Ruby, Enumberable
 ---
-<p>Coming from lower-level languages, the vast spectrum of built in classes, modules, and methods in Ruby is absolutely mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds functionality to the class that uses it.  Oh, and functionality there is.  Enumerable is robust and adds some methods that do exactly what you think they would.  For example:</p>
+<p>Coming from lower-level languages, the vast spectrum of built-in classes, modules, and methods in Ruby is absolutely mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds functionality to the class that uses it.  Oh, and functionality there is.  The two most common objects that can call Enumerable methods are arrays and hashes.  It is robust and adds some methods that do exactly what you think they would.  For example:</p>
 ```ruby
 find
 any?
@@ -25,7 +25,7 @@ favorite_people = {
     :dean => "Avi Flombaum"
   }
 ```
-<p>Let's say you have this hash of favorite people and wish to sort it into an array, based on alphabetical order of their last name.  Is that description of what I want to do longer than the code:</p>
+<p>Let's say you have this hash of favorite people and wish to sort it into an array, based on alphabetical order of their last name.  Is that description of what I want to do longer than the code?</p>
 ```ruby
 favorite_people.sort{ |a, b| a[1].split(" ").last <=> b[1].split(" ").last}
 
@@ -37,7 +37,7 @@ favorite_people.sort{ |a, b| a[1].split(" ").last <=> b[1].split(" ").last}
 ```
 Yep.
 
-<p>When used on a hash, sort converts your hash to an array of arrays of length 2, where each sub-array is a key/value pair.  This is defined in the hash's each method, a method I will talk more about a little later.  Enumerable's sort function uses these return values to sort your input.  The great thing about the sort method is that you can sort it however you tell your program to.  No more iterating though your entire data structure.  This is even more relevant because if you have an object you would like to use with Enumerable, all you have to do is define an each method in your class, which yields each value you would like Enumerable to operate on.</p>
+<p>When used on a hash, sort converts your hash to an array of arrays of length 2, where each sub-array is a key/value pair.  This is defined in the hash's each method, a method I will talk more about a little later.  Enumerable's sort function uses these return values to sort your input.  The great thing about the sort method is that you can sort it however you tell your program to.  No more iterating though your entire data structure.  This is even more relevant because if you have an object you would like to use with Enumerable, all you have to do is define an each method in your class which yields each value you would like Enumerable to operate on.</p>
 ```ruby
 class DeliciousFood
 
