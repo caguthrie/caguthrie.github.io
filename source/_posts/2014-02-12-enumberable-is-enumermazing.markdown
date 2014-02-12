@@ -11,11 +11,11 @@ Coming from lower-level languages, the vast spectrum of built in classes, module
 mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds
 functionality to the class that uses it.  Oh, and functionality there is.  Enumerable is robust and adds some methods that
 do exactly what you think they would.  For example:
-
+```ruby
 find
 any?
 include?
-
+```
 The functionality I have found most useful, are the searching and sorting methods.  I'll tell you about three of my favorites
 now.
 
