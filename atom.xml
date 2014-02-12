@@ -4,7 +4,7 @@
   <title><![CDATA[chrisblogs]]></title>
   <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-02-12T14:06:20-05:00</updated>
+  <updated>2014-02-12T14:25:52-05:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -18,7 +18,7 @@
     <link href="http://caguthrie.github.io/blog/2014/02/12/enumberable-is-enumermazing/"/>
     <updated>2014-02-12T13:35:30-05:00</updated>
     <id>http://caguthrie.github.io/blog/2014/02/12/enumberable-is-enumermazing</id>
-    <content type="html"><![CDATA[<p>Coming from lower-level languages, the vast spectrum of built in classes, modules, and methods in Ruby is absolutely mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds functionality to the class that uses it.  Oh, and functionality there is.  Enumerable is robust and adds some methods that do exactly what you think they would.  For example:</p>
+    <content type="html"><![CDATA[<p>Coming from lower-level languages, the vast spectrum of built-in classes, modules, and methods in Ruby is absolutely mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds functionality to the class that uses it.  Oh, and functionality there is.  The two most common objects that can call Enumerable methods are arrays and hashes.  It is robust and adds some methods that do exactly what you think they would.  For example:</p>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -55,7 +55,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Let&#8217;s say you have this hash of favorite people and wish to sort it into an array, based on alphabetical order of their last name.  Is that description of what I want to do longer than the code:</p>
+<p>Let&#8217;s say you have this hash of favorite people and wish to sort it into an array, based on alphabetical order of their last name.  Is that description of what I want to do longer than the code?</p>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -77,7 +77,7 @@
 
 <p>Yep.</p>
 
-<p>When used on a hash, sort converts your hash to an array of arrays of length 2, where each sub-array is a key/value pair.  This is defined in the hash&#8217;s each method, a method I will talk more about a little later.  Enumerable&#8217;s sort function uses these return values to sort your input.  The great thing about the sort method is that you can sort it however you tell your program to.  No more iterating though your entire data structure.  This is even more relevant because if you have an object you would like to use with Enumerable, all you have to do is define an each method in your class, which yields each value you would like Enumerable to operate on.</p>
+<p>When used on a hash, sort converts your hash to an array of arrays of length 2, where each sub-array is a key/value pair.  This is defined in the hash&#8217;s each method, a method I will talk more about a little later.  Enumerable&#8217;s sort function uses these return values to sort your input.  The great thing about the sort method is that you can sort it however you tell your program to.  No more iterating though your entire data structure.  This is even more relevant because if you have an object you would like to use with Enumerable, all you have to do is define an each method in your class which yields each value you would like Enumerable to operate on.</p>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -152,15 +152,6 @@
 
 <p>Thankfully Enumerable and partition saved me from eating concrete or my fedora.  What can&#8217;t Ruby do?</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://caguthrie.github.io/blog/2014/02/04/hello-world/"/>
-    <updated>2014-02-04T16:42:21-05:00</updated>
-    <id>http://caguthrie.github.io/blog/2014/02/04/hello-world</id>
-    <content type="html"><![CDATA[<p>post post post.  this is a post</p>
 ]]></content>
   </entry>
   
