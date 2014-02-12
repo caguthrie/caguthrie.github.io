@@ -23,7 +23,7 @@ now.
 
 The sort method might seem like a shy, simplistic wallflower, but, with the power of blocks in ruby, sort transforms into a
 something any high school prom king would tremble at.  Take this example:
-
+```ruby
 favorite_people = {
     :poet => "Walt Whitman",
     :baseball_player => "Tony Gwynn",
@@ -31,10 +31,10 @@ favorite_people = {
     :billionaire => "Bill Gates",
     :dean => "Avi Flombaum"
   }
-
+```
 You have this hash of favorite people and wish to sort it into an array, based on alphabetical order of their last name.
 Let's see if that description of what I want to do is longer than the code:
-
+```ruby
 favorite_people.sort{ |a, b| a[1].split(" ").last <=> b[1].split(" ").last}
 
 #=> [[:dean, "Avi Flombaum"],
@@ -42,7 +42,7 @@ favorite_people.sort{ |a, b| a[1].split(" ").last <=> b[1].split(" ").last}
     [:baseball_player, "Tony Gwynn"],
     [:jeopardy_champion, "Ken Jennings"],
     [:poet, "Walt Whitman"]]
-
+```
 Yep.
 
 When used on a hash, sort converts your hash to an array of arrays of length 2, where each sub-array is a key/value pair.  
@@ -51,7 +51,7 @@ these return values to sort your input.  The great thing about the sort method i
 program to.  No more iterating though your entire data structure.  This is even more relevant because if you have an object you 
 would like to use with Enumerable, all you have to do is define an each method in your class, which yields each value you would 
 like Enumerable to operate on.
-
+```ruby
 class DeliciousFood
 
   include Enumerable
@@ -68,7 +68,7 @@ class DeliciousFood
 end
 
 DeliciousFood.new.sort { |a, b| a <=> b } #=> ["Artisanal Pizza", "Bacon Grease", "Burrito", "Cake", "Tangerine"]
-
+```
 You want your class to be Enumermazing?  Just like that, it's as easy as defining an each method.
 
 <b>grep</b>:
@@ -77,15 +77,15 @@ You want your class to be Enumermazing?  Just like that, it's as easy as definin
 and find data which matches your search parameter(s).  Just like sort, and many other methods in Enumerable, grep can take
 a block to create your own custom searches.  Let's return to our DeliciousFood class above and try searching for each piece
 data that includes the letter "k" or "z", because I only eat food that contains at least one of those letters:</p>
-
+```ruby
 DeliciousFood.new.grep(/(k|z)/) { |a| "I ate some " + a } #=> ["I ate some Cake", "I ate some Artisanal Pizza"]
-
+```
 <b>partition</b>:
 
 <p>Lastly, a fun, easy, and quick way to put things into two different arrays.  The partition method takes in some data, and
 outputs it in an array of two arrays.  If the block passed into it evaluates as true, it gets placed in the first sub-array.
 If not, it gets placed in the second sub-array.  Lets say I'm hungry but I'm confused what to eat on my kitchen table:</p>
-
+```ruby
 food = ["Tangerine", "Burrito", "Cake", "Artisanal Pizza", "Bacon Grease"]
 not_food = ["Concrete", "Fedora", "Silica Gel", "Cigarette Butt"]
 
@@ -93,5 +93,5 @@ my_kitchen_table = ["Concrete", "Tangerine", "Burrito", "Fedora", "Cake"]
 
 output = my_kitchen_table.partition { |item| food.include?(item) } #=> [["Tangerine", "Burrito", "Cake"],["Concrete","Fedora"]]
 puts output[0] #=> ["Tangerine", "Burrito", "Cake"]
-
+```
 <p>Thankfully Enumerable and partition saved me from eating concrete or my fedora.  What can't Ruby do?</p>
