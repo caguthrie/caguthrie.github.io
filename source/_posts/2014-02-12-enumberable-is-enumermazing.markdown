@@ -11,7 +11,7 @@ find
 any?
 include?
 ```
-<p>The functionality I have found most useful, are the searching and sorting methods.  I'll tell you about three of my favorites now.</p>
+<p>The functionality I have found most useful are the searching and sorting methods.  I'll tell you about three of my favorites now.</p>
 
 <b><h3>sort</h3></b>
 
