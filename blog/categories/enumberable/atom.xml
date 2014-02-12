@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Enumberable | chrisblogs]]></title>
   <link href="http://caguthrie.github.io/blog/categories/enumberable/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-02-12T13:39:03-05:00</updated>
+  <updated>2014-02-12T14:04:51-05:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -18,26 +18,25 @@
     <link href="http://caguthrie.github.io/blog/2014/02/12/enumberable-is-enumermazing/"/>
     <updated>2014-02-12T13:35:30-05:00</updated>
     <id>http://caguthrie.github.io/blog/2014/02/12/enumberable-is-enumermazing</id>
-    <content type="html"><![CDATA[<p>Enumberable is Enumermazing</p>
+    <content type="html"><![CDATA[<p>Coming from lower-level languages, the vast spectrum of built in classes, modules, and methods in Ruby is absolutely mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds functionality to the class that uses it.  Oh, and functionality there is.  Enumerable is robust and adds some methods that do exactly what you think they would.  For example:</p>
 
-<p>Coming from lower-level languages, the vast spectrum of built in classes, modules, and methods in Ruby is absolutely
-mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds
-functionality to the class that uses it.  Oh, and functionality there is.  Enumerable is robust and adds some methods that
-do exactly what you think they would.  For example:</p>
 
-<p>find
+<p><code>ruby
+find
 any?
-include?</p>
+include?
+</code></p>
 
-<p>The functionality I have found most useful, are the searching and sorting methods.  I&rsquo;ll tell you about three of my favorites
-now.</p>
+<p>The functionality I have found most useful, are the searching and sorting methods.  I'll tell you about three of my favorites now.</p>
 
-<p><b>sort</b>:</p>
 
-<p>The sort method might seem like a shy, simplistic wallflower, but, with the power of blocks in ruby, sort transforms into a
-something any high school prom king would tremble at.  Take this example:</p>
+<p><b><h3>sort</h3></b></p>
 
-<p>favorite_people = {</p>
+<p>The sort method might seem like a shy, simplistic wallflower, but, with the power of blocks in ruby, sort transforms into a something any high school prom king would tremble at the sight of.  Take this example:</p>
+
+
+<p>```ruby
+favorite_people = {</p>
 
 <pre><code>:poet =&gt; "Walt Whitman",
 :baseball_player =&gt; "Tony Gwynn",
@@ -46,31 +45,33 @@ something any high school prom king would tremble at.  Take this example:</p>
 :dean =&gt; "Avi Flombaum"
 </code></pre>
 
-<p>  }</p>
+<p>  }
+```</p>
 
-<p>You have this hash of favorite people and wish to sort it into an array, based on alphabetical order of their last name.
-Let&rsquo;s see if that description of what I want to do is longer than the code:</p>
+<p>Let's say you have this hash of favorite people and wish to sort it into an array, based on alphabetical order of their last name.  Is that description of what I want to do longer than the code:</p>
 
-<p>favorite_people.sort{ |a, b| a[1].split(&ldquo; &rdquo;).last &lt;=> b[1].split(&ldquo; &rdquo;).last}</p>
+
+<p>```ruby
+favorite_people.sort{ |a, b| a[1].split(&ldquo; &rdquo;).last &lt;=> b[1].split(&ldquo; &rdquo;).last}</p>
 
 <h1>=> [[:dean, &ldquo;Avi Flombaum&rdquo;],</h1>
 
-<pre><code>[:billionaire, "Bill Gates"],
-[:baseball_player, "Tony Gwynn"],
-[:jeopardy_champion, "Ken Jennings"],
-[:poet, "Walt Whitman"]]
-</code></pre>
+<h1>[:billionaire, &ldquo;Bill Gates&rdquo;],</h1>
 
-<p>Yep.</p>
+<h1>[:baseball_player, &ldquo;Tony Gwynn&rdquo;],</h1>
 
-<p>When used on a hash, sort converts your hash to an array of arrays of length 2, where each sub-array is a key/value pair.<br/>
-This is defined in the hash&rsquo;s each method, a method I will talk more about a little later.  Enumerable&rsquo;s sort function uses
-these return values to sort your input.  The great thing about the sort method is that you can sort it however you tell your
-program to.  No more iterating though your entire data structure.  This is even more relevant because if you have an object you
-would like to use with Enumerable, all you have to do is define an each method in your class, which yields each value you would
-like Enumerable to operate on.</p>
+<h1>[:jeopardy_champion, &ldquo;Ken Jennings&rdquo;],</h1>
 
-<p>class DeliciousFood</p>
+<h1>[:poet, &ldquo;Walt Whitman&rdquo;]]</h1>
+
+<p>```
+Yep.</p>
+
+<p>When used on a hash, sort converts your hash to an array of arrays of length 2, where each sub-array is a key/value pair.  This is defined in the hash's each method, a method I will talk more about a little later.  Enumerable's sort function uses these return values to sort your input.  The great thing about the sort method is that you can sort it however you tell your program to.  No more iterating though your entire data structure.  This is even more relevant because if you have an object you would like to use with Enumerable, all you have to do is define an each method in your class, which yields each value you would like Enumerable to operate on.</p>
+
+
+<p>```ruby
+class DeliciousFood</p>
 
 <p>  include Enumerable</p>
 
@@ -91,34 +92,34 @@ end
 <p>  end
 end</p>
 
-<p>DeliciousFood.new.sort { |a, b| a &lt;=> b } #=> [&ldquo;Artisanal Pizza&rdquo;, &ldquo;Bacon Grease&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;, &ldquo;Tangerine&rdquo;]</p>
+<p>DeliciousFood.new.sort { |a, b| a &lt;=> b } #=> [&ldquo;Artisanal Pizza&rdquo;, &ldquo;Bacon Grease&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;, &ldquo;Tangerine&rdquo;]
+```</p>
 
-<p>You want your class to be Enumermazing?  Just like that, it&rsquo;s as easy as defining an each method.</p>
-
-<p><b>grep</b>:</p>
-
-<p>The method grep is, just as you command line monkies would think, a function that allows you to search through your data
-and find data which matches your search parameter(s).  Just like sort, and many other methods in Enumerable, grep can take
-a block to create your own custom searches.  Let's return to our DeliciousFood class above and try searching for each piece
-data that includes the letter "k" or "z", because I only eat food that contains at least one of those letters:</p>
+<p>You want your class to be Enumermazing?  Just like that, it's as easy as defining an each method.</p>
 
 
-<p>DeliciousFood.new.grep(/(k|z)/) { |a| &ldquo;I ate some &rdquo; + a } #=> [&ldquo;I ate some Cake&rdquo;, &ldquo;I ate some Artisanal Pizza&rdquo;]</p>
+<p><b><h3>grep</h3></b></p>
 
-<p><b>partition</b>:</p>
-
-<p>Lastly, a fun, easy, and quick way to put things into two different arrays.  The partition method takes in some data, and
-outputs it in an array of two arrays.  If the block passed into it evaluates as true, it gets placed in the first sub-array.
-If not, it gets placed in the second sub-array.  Lets say I'm hungry but I'm confused what to eat on my kitchen table:</p>
+<p>The method grep is, just as you command line monkeys would think, a function that allows you to search through your data and find what matches your search parameter(s).  Just like sort, and many other methods in Enumerable, grep can take a block to create your own custom searches.  Let's return to our DeliciousFood class above and try searching for each piece data that includes the letter "k" or "z", because I only eat food that contains at least one of those letters:</p>
 
 
-<p>food = [&ldquo;Tangerine&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;, &ldquo;Artisanal Pizza&rdquo;, &ldquo;Bacon Grease&rdquo;]
+<p><code>ruby
+DeliciousFood.new.grep(/(k|z)/) { |a| "I ate some " + a } #=&gt; ["I ate some Cake", "I ate some Artisanal Pizza"]
+</code>
+<b><h3>partition</h3></b></p>
+
+<p>Lastly, a fun, easy, and quick way to put things into two different arrays.  The partition method takes in some data, and outputs it in an array of two arrays.  If the block passed into it evaluates as true, it gets placed in the first sub-array.  If not, it gets placed in the second sub-array.  Lets say I'm hungry but I'm confused about what to eat from my kitchen table:</p>
+
+
+<p>```ruby
+food = [&ldquo;Tangerine&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;, &ldquo;Artisanal Pizza&rdquo;, &ldquo;Bacon Grease&rdquo;]
 not_food = [&ldquo;Concrete&rdquo;, &ldquo;Fedora&rdquo;, &ldquo;Silica Gel&rdquo;, &ldquo;Cigarette Butt&rdquo;]</p>
 
 <p>my_kitchen_table = [&ldquo;Concrete&rdquo;, &ldquo;Tangerine&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Fedora&rdquo;, &ldquo;Cake&rdquo;]</p>
 
 <p>output = my_kitchen_table.partition { |item| food.include?(item) } #=> [[&ldquo;Tangerine&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;],[&ldquo;Concrete&rdquo;,&ldquo;Fedora&rdquo;]]
-puts output[0] #=> [&ldquo;Tangerine&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;]</p>
+puts output[0] #=> [&ldquo;Tangerine&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;]
+```</p>
 
 <p>Thankfully Enumerable and partition saved me from eating concrete or my fedora.  What can't Ruby do?</p>
 
