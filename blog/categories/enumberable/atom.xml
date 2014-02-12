@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[chrisblogs]]></title>
-  <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Enumberable | chrisblogs]]></title>
+  <link href="http://caguthrie.github.io/blog/categories/enumberable/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
   <updated>2014-02-12T13:39:03-05:00</updated>
   <id>http://caguthrie.github.io/</id>
@@ -99,8 +99,8 @@ end</p>
 
 <p>The method grep is, just as you command line monkies would think, a function that allows you to search through your data
 and find data which matches your search parameter(s).  Just like sort, and many other methods in Enumerable, grep can take
-a block to create your own custom searches.  Let&#8217;s return to our DeliciousFood class above and try searching for each piece
-data that includes the letter &#8220;k&#8221; or &#8220;z&#8221;, because I only eat food that contains at least one of those letters:</p>
+a block to create your own custom searches.  Let's return to our DeliciousFood class above and try searching for each piece
+data that includes the letter "k" or "z", because I only eat food that contains at least one of those letters:</p>
 
 
 <p>DeliciousFood.new.grep(/(k|z)/) { |a| &ldquo;I ate some &rdquo; + a } #=> [&ldquo;I ate some Cake&rdquo;, &ldquo;I ate some Artisanal Pizza&rdquo;]</p>
@@ -109,7 +109,7 @@ data that includes the letter &#8220;k&#8221; or &#8220;z&#8221;, because I only
 
 <p>Lastly, a fun, easy, and quick way to put things into two different arrays.  The partition method takes in some data, and
 outputs it in an array of two arrays.  If the block passed into it evaluates as true, it gets placed in the first sub-array.
-If not, it gets placed in the second sub-array.  Lets say I&#8217;m hungry but I&#8217;m confused what to eat on my kitchen table:</p>
+If not, it gets placed in the second sub-array.  Lets say I'm hungry but I'm confused what to eat on my kitchen table:</p>
 
 
 <p>food = [&ldquo;Tangerine&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;, &ldquo;Artisanal Pizza&rdquo;, &ldquo;Bacon Grease&rdquo;]
@@ -120,17 +120,8 @@ not_food = [&ldquo;Concrete&rdquo;, &ldquo;Fedora&rdquo;, &ldquo;Silica Gel&rdqu
 <p>output = my_kitchen_table.partition { |item| food.include?(item) } #=> [[&ldquo;Tangerine&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;],[&ldquo;Concrete&rdquo;,&ldquo;Fedora&rdquo;]]
 puts output[0] #=> [&ldquo;Tangerine&rdquo;, &ldquo;Burrito&rdquo;, &ldquo;Cake&rdquo;]</p>
 
-<p>Thankfully Enumerable and partition saved me from eating concrete or my fedora.  What can&#8217;t Ruby do?</p>
+<p>Thankfully Enumerable and partition saved me from eating concrete or my fedora.  What can't Ruby do?</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://caguthrie.github.io/blog/2014/02/04/hello-world/"/>
-    <updated>2014-02-04T16:42:21-05:00</updated>
-    <id>http://caguthrie.github.io/blog/2014/02/04/hello-world</id>
-    <content type="html"><![CDATA[<p>post post post.  this is a post</p>
 ]]></content>
   </entry>
   
