@@ -5,21 +5,21 @@ date: 2014-02-27 11:10:24 -0500
 comments: true
 categories: 
 ---
-<p><em>The best revenge is massive success.<br>-Frank Sinatra</em><br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying web applocations super easy.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I'd like to share them with you.</p><br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
+<p><em>The best revenge is massive success.<br>-Frank Sinatra</><br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I'd like to share them with you.  So come fly with me, let's fly away ...</p><br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
 ```ruby
 get '/favorite_singer/*/favorite_album/*' do
   # example: /favorite_band/frank_sinatra/favorite_album/come_fly_with_me
   params[:splat] # => ["frank_sinatra", "come_fly_with_me"]
 end
 ```
-<p>Here, you can let your user go to any sub-path where your wildcards are, and get those sub-path names back in a handy array using the :splat symbol key in the params hash.  This could be useful in a product catalog, or in any case where there could be a large number of keys that could return data from a database.  There are other useful ways to use splats in pathnames, like for downloads:</p>
+<p>Here, you can let your user go to any sub-path where your wildcards are and get those sub-path names back to you in a handy array using the :splat symbol key in the params hash.  This could be useful in a product catalog, or in any case where there could be a large number of keys that could return data from a database.  There are other useful ways to use splats in pathnames, like for downloads:</p>
 ```ruby
 get '/download/*.*' do
   # goes to /download/path/file.zip
   params[:splat] # => ["path/file", "zip"]
 end
 ```
-<p>If you wanted a custom page for your users to look at while they download a file, you could easily do something like that.  Site's like cnet.com and download.com may use Sinatra as they similar downloader pages.</p><br><b><h3>Multiple gets for a sub-path</b></h3><br><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at the previous sentence, it may make zero sense to some people, so I have an easy example below:</p>
+<p>If you wanted a custom page for your users to look at while they download a file, you could easily do something similar to that.  Sites like cnet.com and download.com may use Sinatra as they similar downloader pages.</p><br><b><h3>Multiple gets for a sub-path</b></h3><br><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at unnecessary complexity of the previous sentence, that may make zero sense to some people.  So, I have an easy example below:</p>
 ```ruby
 get '/the_capital_of/california/:cap' do
   pass if params[:cap].downcase != "sacramento"
