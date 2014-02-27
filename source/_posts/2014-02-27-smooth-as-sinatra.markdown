@@ -5,7 +5,7 @@ date: 2014-02-27 11:10:24 -0500
 comments: true
 categories: 
 ---
-<p><i>The best revenge is massive success.<br/>-Frank Sinatra</i><br/>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying web applocations super easy.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I'd like to share them with you.</p><br/><b><h3>Sinatra Splat</b></h3><br/><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
+<p><em>The best revenge is massive success.<br>-Frank Sinatra</em><br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying web applocations super easy.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I'd like to share them with you.</p><br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
 ```ruby
 get '/favorite_singer/*/favorite_album/*' do
   # example: /favorite_band/frank_sinatra/favorite_album/come_fly_with_me
@@ -19,7 +19,7 @@ get '/download/*.*' do
   params[:splat] # => ["path/file", "zip"]
 end
 ```
-<p>If you wanted a custom page for your users to look at while they download a file, you could easily do something like that.  Site's like cnet.com and download.com may use Sinatra as they similar downloader pages.</p><br/><b><h3>Multiple gets for a sub-path</b></h3><br/><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at the previous sentence, it may make zero sense to some people, so I have an easy example below:</p>
+<p>If you wanted a custom page for your users to look at while they download a file, you could easily do something like that.  Site's like cnet.com and download.com may use Sinatra as they similar downloader pages.</p><br><b><h3>Multiple gets for a sub-path</b></h3><br><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at the previous sentence, it may make zero sense to some people, so I have an easy example below:</p>
 ```ruby
 get '/the_capital_of/california/:cap' do
   pass if params[:cap].downcase != "sacramento"
@@ -30,7 +30,7 @@ get '/the_capital_of/california/*' do
   "Your knowledge of 3rd grade US geography is disasterous!"
 end
 ```
-<p>Using the pass method in sinatra, the rest of the logic in the first get block is not executed and the next get method fitting the path parameters is executed.  It's another added bonus of the lazy ruby interpreter.</p><br/><b><h3>Browser Redirect</b></h3><br/><p>Lastly, you may want to redirect a user to a different path after you've taken some action.  Maybe, for example, after you've filled out a form or shown a quick advertisment.  The redirect method is a quick way to do that, and you can implement it like so:
+<p>Using the pass method in sinatra, the rest of the logic in the first get block is not executed and the next get method fitting the path parameters is executed.  It's another added bonus of the lazy ruby interpreter.</p><br><b><h3>Browser Redirect</b></h3><br><p>Lastly, you may want to redirect a user to a different path after you've taken some action.  Maybe, for example, after you've filled out a form or shown a quick advertisment.  The redirect method is a quick way to do that, and you can implement it like so:
 
 
 ```ruby
