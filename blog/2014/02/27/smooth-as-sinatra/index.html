@@ -89,10 +89,10 @@
   </header>
 
 
-<div class="entry-content"><p><i>The best revenge is massive success.<br/>-Frank Sinatra</i><br/><br/>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying web applocations super easy.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.</p>
+<div class="entry-content"><p><i>The best revenge is massive success.<br/>-Frank Sinatra</i><br/>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying web applocations super easy.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.</p>
 
 
-<br/><br/><b><h3>Sinatra Splat</b></h3><br/><br/><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
+<br/><b><h3>Sinatra Splat</b></h3><br/><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -123,7 +123,7 @@
 <p>If you wanted a custom page for your users to look at while they download a file, you could easily do something like that.  Site&#8217;s like cnet.com and download.com may use Sinatra as they similar downloader pages.</p>
 
 
-<br/><br/><b><h3>Multiple gets for a sub-path</b></h3><br/><br/><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at the previous sentence, it may make zero sense to some people, so I have an easy example below:</p>
+<br/><b><h3>Multiple gets for a sub-path</b></h3><br/><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at the previous sentence, it may make zero sense to some people, so I have an easy example below:</p>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -148,7 +148,7 @@
 <p>Using the pass method in sinatra, the rest of the logic in the first get block is not executed and the next get method fitting the path parameters is executed.  It&#8217;s another added bonus of the lazy ruby interpreter.</p>
 
 
-<br/><br/><b><h3>Browser Redirect</b></h3><br/><br/><p>Lastly, you may want to redirect a user to a different path after you&#8217;ve taken some action.  Maybe, for example, after you&#8217;ve filled out a form or shown a quick advertisment.  The redirect method is a quick way to do that, and you can implement it like so:
+<br/><b><h3>Browser Redirect</b></h3><br/><p>Lastly, you may want to redirect a user to a different path after you&#8217;ve taken some action.  Maybe, for example, after you&#8217;ve filled out a form or shown a quick advertisment.  The redirect method is a quick way to do that, and you can implement it like so:
 
 
 
