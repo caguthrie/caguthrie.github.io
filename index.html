@@ -9,7 +9,7 @@
   <meta name="author" content="Chris Guthrie">
 
   
-  <meta name="description" content="Coming from lower-level languages, the vast spectrum of built-in classes, modules, and methods in Ruby is absolutely mind-blowing. One of the most &hellip;">
+  <meta name="description" content="The best revenge is massive success.-Frank SinatraEven in death, Sinatra is continuing to make people swoon. Sinatra is a web framework for Ruby &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +63,127 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/27/smooth-as-sinatra/">Smooth as Sinatra</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-27T11:10:24-05:00" pubdate data-updated="true">Feb 27<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><i>The best revenge is massive success.<br/>-Frank Sinatra</i><br/><br/>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying web applocations super easy.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.</p>
+
+
+<br/><br/><b><h3>Sinatra Splat</b></h3><br/><br/><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/favorite_singer/*/favorite_album/*&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># example: /favorite_band/frank_sinatra/favorite_album/come_fly_with_me</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;frank_sinatra&quot;, &quot;come_fly_with_me&quot;]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here, you can let your user go to any sub-path where your wildcards are, and get those sub-path names back in a handy array using the :splat symbol key in the params hash.  This could be useful in a product catalog, or in any case where there could be a large number of keys that could return data from a database.  There are other useful ways to use splats in pathnames, like for downloads:</p>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/download/*.*&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># goes to /download/path/file.zip</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;path/file&quot;, &quot;zip&quot;]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you wanted a custom page for your users to look at while they download a file, you could easily do something like that.  Site&#8217;s like cnet.com and download.com may use Sinatra as they similar downloader pages.</p>
+
+
+<br/><br/><b><h3>Multiple gets for a sub-path</b></h3><br/><br/><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at the previous sentence, it may make zero sense to some people, so I have an easy example below:</p>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/:cap&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">pass</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:cap</span><span class="o">].</span><span class="n">downcase</span> <span class="o">!=</span> <span class="s2">&quot;sacramento&quot;</span>
+</span><span class='line'>  <span class="s2">&quot;Correct!!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/*&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="s2">&quot;Your knowledge of 3rd grade US geography is disasterous!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Using the pass method in sinatra, the rest of the logic in the first get block is not executed and the next get method fitting the path parameters is executed.  It&#8217;s another added bonus of the lazy ruby interpreter.</p>
+
+
+<br/><br/><b><h3>Browser Redirect</b></h3><br/><br/><p>Lastly, you may want to redirect a user to a different path after you&#8217;ve taken some action.  Maybe, for example, after you&#8217;ve filled out a form or shown a quick advertisment.  The redirect method is a quick way to do that, and you can implement it like so:
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/restricted_area&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="s2">&quot;Why are you here!? Go away!&quot;</span>
+</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">&#39;/public_area&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/public_area&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="s2">&quot;Welcome!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So pull up a fine leather chair, a glass of scotch, and enjoy the classiness that Sinatra has to offer you.  If there&rsquo;s a problem in a web app you need solving, old blue eyes has you covered.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -252,6 +373,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/27/smooth-as-sinatra/">Smooth as Sinatra</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/02/12/enumberable-is-enumermazing/">Enumberable Is Enumermazing</a>
