@@ -9,7 +9,7 @@
   <meta name="author" content="Chris Guthrie">
 
   
-  <meta name="description" content="The best revenge is massive success.-Frank SinatraEven in death, Sinatra is continuing to make people swoon. Sinatra is a web framework for Ruby &hellip;">
+  <meta name="description" content="The best revenge is massive success.-Frank Sinatra Even in death, Sinatra is continuing to make people swoon. Sinatra is a web framework for Ruby &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,10 +89,10 @@
   </header>
 
 
-<div class="entry-content"><p><em>The best revenge is massive success.<br>-Frank Sinatra</em><br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying web applocations super easy.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.</p>
+<div class="entry-content"><p><em>The best revenge is massive success.<br>-Frank Sinatra</>
 
 
-<br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
+<br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.  So come fly with me, let&#8217;s fly away &#8230;</p><br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -106,7 +106,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Here, you can let your user go to any sub-path where your wildcards are, and get those sub-path names back in a handy array using the :splat symbol key in the params hash.  This could be useful in a product catalog, or in any case where there could be a large number of keys that could return data from a database.  There are other useful ways to use splats in pathnames, like for downloads:</p>
+<p>Here, you can let your user go to any sub-path where your wildcards are and get those sub-path names back to you in a handy array using the :splat symbol key in the params hash.  This could be useful in a product catalog, or in any case where there could be a large number of keys that could return data from a database.  There are other useful ways to use splats in pathnames, like for downloads:</p>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -120,10 +120,10 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>If you wanted a custom page for your users to look at while they download a file, you could easily do something like that.  Site&#8217;s like cnet.com and download.com may use Sinatra as they similar downloader pages.</p>
+<p>If you wanted a custom page for your users to look at while they download a file, you could easily do something similar to that.  Sites like cnet.com and download.com may use Sinatra as they similar downloader pages.</p>
 
 
-<br><b><h3>Multiple gets for a sub-path</b></h3><br><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at the previous sentence, it may make zero sense to some people, so I have an easy example below:</p>
+<br><b><h3>Multiple gets for a sub-path</b></h3><br><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at unnecessary complexity of the previous sentence, that may make zero sense to some people.  So, I have an easy example below:</p>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
