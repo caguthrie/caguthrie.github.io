@@ -5,7 +5,7 @@ date: 2014-02-27 11:10:24 -0500
 comments: true
 categories: 
 ---
-<p><em>The best revenge is massive success.<br>-Frank Sinatra</><br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I'd like to share them with you.  So come fly with me, let's fly away ...</p><br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
+<p><em>The best revenge is massive success.<br>-Frank Sinatra</em><br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I'd like to share them with you.  So come fly with me, let's fly away ...</p><br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
 ```ruby
 get '/favorite_singer/*/favorite_album/*' do
   # example: /favorite_singer/frank_sinatra/favorite_album/come_fly_with_me
