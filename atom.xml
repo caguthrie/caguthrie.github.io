@@ -4,7 +4,7 @@
   <title><![CDATA[chrisblogs]]></title>
   <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-02-27T18:17:52-05:00</updated>
+  <updated>2014-02-28T09:54:11-05:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -18,10 +18,10 @@
     <link href="http://caguthrie.github.io/blog/2014/02/27/smooth-as-sinatra/"/>
     <updated>2014-02-27T11:10:24-05:00</updated>
     <id>http://caguthrie.github.io/blog/2014/02/27/smooth-as-sinatra</id>
-    <content type="html"><![CDATA[<p><em>The best revenge is massive success.<br>-Frank Sinatra</>
+    <content type="html"><![CDATA[<p><em>The best revenge is massive success.<br>-Frank Sinatra</em><br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.  So come fly with me, let&#8217;s fly away &#8230;</p>
 
 
-<br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.  So come fly with me, let&#8217;s fly away &#8230;</p><br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
+<br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
