@@ -4,7 +4,7 @@
   <title><![CDATA[chrisblogs]]></title>
   <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-02-28T09:54:11-05:00</updated>
+  <updated>2014-03-12T23:39:23-04:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -12,6 +12,109 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Geocoder and My Very First Gem Attempt Part 1]]></title>
+    <link href="http://caguthrie.github.io/blog/2014/03/12/geocoder-and-my-very-first-gem/"/>
+    <updated>2014-03-12T13:28:18-04:00</updated>
+    <id>http://caguthrie.github.io/blog/2014/03/12/geocoder-and-my-very-first-gem</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve always been weirdly into maps and geography.  Back in 2010 I was introduced to Geocaching
+and, from then on, suspciously looking around from tupperware was one of my new hobbies.  A week
+ago, I presented the web app I worked on for The Flatiron School&rsquo;s meetup.  The app showed the
+restaurants with the most health code violations in a zip code.  I was able to implement a gem
+I found, called Geocoder, to convert addresses to geographic coordinates for use in the Google Maps
+API so I could show the exact location of offending restaurants on a map.  I didn&rsquo;t really know too
+much about Geocoder and was only able to implement one method to find coordinates:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Geocoder</span><span class="o">.</span><span class="n">coordinates</span><span class="p">(</span><span class="s2">&quot;11 broadway, new york, ny&quot;</span><span class="p">)</span> <span class="c1">#=&gt; [40.7055269, -74.014346]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But there is a much cooler way to use Geocoder: with ActiveRecord.</p>
+
+<p>If in the table you want to geocode en masse, you can add both a <code>ruby latitude</code> and <code>ruby longitude</code>
+column in your database table connected with ActiveRecord.  Then, in your model, add the following lines:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">extend</span> <span class="o">::</span><span class="ss">Geocoder</span><span class="p">:</span><span class="ss">:Model</span><span class="o">::</span><span class="no">ActiveRecord</span>
+</span><span class='line'><span class="n">geocoded_by</span> <span class="ss">:address</span>
+</span><span class='line'><span class="n">after_validation</span> <span class="ss">:geocode</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That first line apparently provides you with the methods you are using on the next two lines.  When you add
+the geocoded_by line, the geocoder uses the column you designate as the input to be geocoded.  I&rsquo;m not exactly
+sure what after_validation does, but it seems like that it designates the direction of gecoding.  Meaning here
+we are specifying we want to convert an address into coordinates, as Geocoder also can convert coordinates into
+and address.</p>
+
+<p>So each time I save an element in my table, the geocoder gets the address and fills in the latitude and longitude
+automatically.  I did all these, ran my program, and got this error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Google Geocoding API error: over query limit.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You have apparently have to be gentle.  So I told my program to wait 5 seconds in-between each geocode so Google
+wouldn&rsquo;t be upset at me.  It may work with a smaller number of seconds, but 5 seemed to work fine for me.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">seed_db</span>
+</span><span class='line'>  <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="no">RestClient</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">))</span><span class="o">[</span><span class="s2">&quot;data&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">next</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">last</span> <span class="o">==</span> <span class="s2">&quot;Borough&quot;</span>
+</span><span class='line'>    <span class="n">f</span> <span class="o">=</span> <span class="no">Firehouse</span><span class="o">.</span><span class="n">create</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="mi">9</span><span class="o">]</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span><span class="si">}</span><span class="s2">, NY&quot;</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Geocoding: </span><span class="si">#{</span><span class="n">f</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="nb">sleep</span> <span class="mi">5</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So we&rsquo;re good!  Now we have a database full of addresses and their coordinates.</p>
+
+<p>One more thing I found cool with Geocoder was that you can pass it an external IP address and it also returns
+coordinates!  But don&rsquo;t think you can stay spying on everyone now, the coordinates that it returns have a margin
+of error which I found pretty significant for NYC, about a half a mile.  For the gem I&rsquo;m attempting to write, I
+have used the user&rsquo;s external IP address as the default starting location for directions to the nearest firehouse.</p>
+
+<p>Speaking of which, I am attemping to use this program as an educational experience in my first gem.  Using the</p>
+
+<figure class='code'><figcaption><span>near &#8220;` function in Geocoder, I can pass geocoder a location (IP, physical address, landmark, etc.) and</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="n">can</span> <span class="k">return</span> <span class="n">the</span> <span class="n">nearest</span> <span class="n">location</span> <span class="k">in</span> <span class="n">our</span> <span class="n">geocoded</span> <span class="n">database</span><span class="o">.</span>  <span class="n">I</span> <span class="n">have</span> <span class="n">the</span> <span class="n">program</span> <span class="n">working</span><span class="p">,</span> <span class="n">but</span> <span class="n">the</span> <span class="n">transition</span>
+</span><span class='line'><span class="n">into</span> <span class="n">a</span> <span class="n">gem</span> <span class="n">has</span> <span class="n">been</span> <span class="n">difficult</span> <span class="ow">and</span> <span class="n">clunky</span><span class="o">.</span>  <span class="no">Integrating</span> <span class="n">other</span> <span class="n">gems</span> <span class="ow">and</span> <span class="n">using</span> <span class="n">bundler</span> <span class="n">has</span> <span class="n">proved</span> <span class="n">to</span> <span class="n">be</span> <span class="n">a</span> <span class="n">thorn</span> <span class="k">in</span> <span class="n">my</span>
+</span><span class='line'><span class="n">gem</span> <span class="n">creation</span><span class="s1">&#39;s side.  This is the error I&#39;</span><span class="n">ve</span> <span class="n">been</span> <span class="ss">receiving</span><span class="p">:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>bash
+/Users/caguthrie/.rvm/gems/ruby-2.0.0-p353/gems/bundler-1.5.2/lib/bundler/shared_helpers.rb:24:in `default_gemfile&#8217;: Could not locate Gemfile (Bundler::GemfileNotFound)
+&#8220;`</p>
+
+<p>I&rsquo;ve been pointing directly to the Gemfile in the gemspec and it doesn&rsquo;t seem to care.  Interestingly enough,
+the gem works if I run it in the directory where my source files are.  However, it does not if I attempt
+to run it outside that folder.  The search continues, I will surely, shortly figure out the solution, then
+people everywhere around NYC can get google maps&#8217; walking directions to the nearest firehouse.  Soon enough.</p>
+
+<p>Wait for part 2 of this blog post when I finally figure out how to create a proper gem.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Smooth as Sinatra]]></title>
