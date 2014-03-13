@@ -105,7 +105,7 @@ much about Geocoder and was only able to implement one method to find coordinate
 
 <p>But there is a much cooler way to use Geocoder: with ActiveRecord.</p>
 
-<p>If in the table you want to geocode en masse, you can add both a <code>ruby latitude</code> and <code>ruby longitude</code>
+<p>If in the table you want to geocode en masse, you can add both a latitude and longitude
 column in your database table connected with ActiveRecord.  Then, in your model, add the following lines:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -164,20 +164,16 @@ coordinates!  But don&rsquo;t think you can stay spying on everyone now, the coo
 of error which I found pretty significant for NYC, about a half a mile.  For the gem I&rsquo;m attempting to write, I
 have used the user&rsquo;s external IP address as the default starting location for directions to the nearest firehouse.</p>
 
-<p>Speaking of which, I am attemping to use this program as an educational experience in my first gem.  Using the</p>
+<p>Speaking of which, I am attemping to use this program as an educational experience in my first gem.  Using the
+near function in Geocoder, I can pass geocoder a location (IP, physical address, landmark, etc.) and
+it can return the nearest location in our geocoded database.  I have the program working, but the transition
+into a gem has been difficult and clunky.  Integrating other gems and using bundler has proved to be a thorn in my
+gem creation&rsquo;s side.  This is the error I&rsquo;ve been receiving:</p>
 
-<figure class='code'><figcaption><span>near &#8220;` function in Geocoder, I can pass geocoder a location (IP, physical address, landmark, etc.) and</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="n">can</span> <span class="k">return</span> <span class="n">the</span> <span class="n">nearest</span> <span class="n">location</span> <span class="k">in</span> <span class="n">our</span> <span class="n">geocoded</span> <span class="n">database</span><span class="o">.</span>  <span class="n">I</span> <span class="n">have</span> <span class="n">the</span> <span class="n">program</span> <span class="n">working</span><span class="p">,</span> <span class="n">but</span> <span class="n">the</span> <span class="n">transition</span>
-</span><span class='line'><span class="n">into</span> <span class="n">a</span> <span class="n">gem</span> <span class="n">has</span> <span class="n">been</span> <span class="n">difficult</span> <span class="ow">and</span> <span class="n">clunky</span><span class="o">.</span>  <span class="no">Integrating</span> <span class="n">other</span> <span class="n">gems</span> <span class="ow">and</span> <span class="n">using</span> <span class="n">bundler</span> <span class="n">has</span> <span class="n">proved</span> <span class="n">to</span> <span class="n">be</span> <span class="n">a</span> <span class="n">thorn</span> <span class="k">in</span> <span class="n">my</span>
-</span><span class='line'><span class="n">gem</span> <span class="n">creation</span><span class="s1">&#39;s side.  This is the error I&#39;</span><span class="n">ve</span> <span class="n">been</span> <span class="ss">receiving</span><span class="p">:</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>/Users/caguthrie/.rvm/gems/ruby-2.0.0-p353/gems/bundler-1.5.2/lib/bundler/shared_helpers.rb:24:in <span class="sb">`</span>default_gemfile<span class="err">&#39;</span>: Could not locate Gemfile <span class="o">(</span>Bundler::GemfileNotFound<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-<p>bash
-/Users/caguthrie/.rvm/gems/ruby-2.0.0-p353/gems/bundler-1.5.2/lib/bundler/shared_helpers.rb:24:in `default_gemfile&#8217;: Could not locate Gemfile (Bundler::GemfileNotFound)
-&#8220;`</p>
 
 <p>I&rsquo;ve been pointing directly to the Gemfile in the gemspec and it doesn&rsquo;t seem to care.  Interestingly enough,
 the gem works if I run it in the directory where my source files are.  However, it does not if I attempt
