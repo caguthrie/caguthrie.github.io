@@ -1,0 +1,89 @@
+---
+layout: post
+title: "Geocoder and My Very First Gem Attempt Part 1"
+date: 2014-03-12 13:28:18 -0400
+comments: true
+categories: 
+---
+I've always been weirdly into maps and geography.  Back in 2010 I was introduced to Geocaching
+and, from then on, suspciously looking around from tupperware was one of my new hobbies.  A week
+ago, I presented the web app I worked on for The Flatiron School's meetup.  The app showed the
+restaurants with the most health code violations in a zip code.  I was able to implement a gem
+I found, called Geocoder, to convert addresses to geographic coordinates for use in the Google Maps
+API so I could show the exact location of offending restaurants on a map.  I didn't really know too
+much about Geocoder and was only able to implement one method to find coordinates:
+
+```ruby
+Geocoder.coordinates("11 broadway, new york, ny") #=> [40.7055269, -74.014346]
+```
+
+But there is a much cooler way to use Geocoder: with ActiveRecord.
+
+If in the table you want to geocode en masse, you can add both a ```latitude``` and ```longitude``` 
+column in your database table connected with ActiveRecord.  Then, in your model, add the following lines:
+
+```ruby
+extend ::Geocoder::Model::ActiveRecord
+geocoded_by :address
+after_validation :geocode
+```
+
+That first line apparently provides you with the methods you are using on the next two lines.  When you add
+the geocoded_by line, the geocoder uses the column you designate as the input to be geocoded.  I'm not exactly
+sure what after_validation does, but it seems like that it designates the direction of gecoding.  Meaning here
+we are specifying we want to convert an address into coordinates, as Geocoder also can convert coordinates into
+and address.
+
+So each time I save an element in my table, the geocoder gets the address and fills in the latitude and longitude
+automatically.  I did all these, ran my program, and got this error:
+
+```
+Google Geocoding API error: over query limit.
+```
+
+You have apparently have to be gentle.  So I told my program to wait 5 seconds in-between each geocode so Google 
+wouldn't be upset at me.  It may work with a smaller number of seconds, but 5 seemed to work fine for me.  
+
+```ruby
+def seed_db
+  JSON.parse(RestClient.get(url))["data"].each do |line|
+    next if line.last == "Borough"
+    f = Firehouse.create
+    f.address = "#{line[9]} #{line[10]}, NY"
+    f.save
+    puts "Geocoding: #{f.address}"
+    sleep 5
+  end
+end
+```
+
+So we're good!  Now we have a database full of addresses and their coordinates.
+
+One more thing I found cool with Geocoder was that you can pass it an external IP address and it also returns
+coordinates!  But don't think you can stay spying on everyone now, the coordinates that it returns have a margin
+of error which I found pretty significant for NYC, about a half a mile.  For the gem I'm attempting to write, I
+have used the user's external IP address as the default starting location for directions to the nearest firehouse.
+
+Speaking of which, I am attemping to use this program as an educational experience in my first gem.  Using the
+```near``` function in Geocoder, I can pass geocoder a location (IP, physical address, landmark, etc.) and
+it can return the nearest location in our geocoded database.  I have the program working, but the transition
+into a gem has been difficult and clunky.  Integrating other gems and using bundler has proved to be a thorn in my 
+gem creation's side.  This is the error I've been receiving:
+
+```
+/Users/caguthrie/.rvm/gems/ruby-2.0.0-p353/gems/bundler-1.5.2/lib/bundler/shared_helpers.rb:24:in `default_gemfile': Could not locate Gemfile (Bundler::GemfileNotFound)
+```
+
+I've been pointing directly to the Gemfile in the gemspec and it doesn't seem to care.  Interestingly enough,
+the gem works if I run it in the directory where my source files are.  However, it does not if I attempt
+to run it outside that folder.  The search continues, I will surely, shortly figure out the solution, then
+people everywhere around NYC can get google maps' walking directions to the nearest firehouse.  Soon enough.
+
+Wait for part 2 of this blog post when I finally figure out how to create a proper gem.
+
+
+
+
+
+
+
