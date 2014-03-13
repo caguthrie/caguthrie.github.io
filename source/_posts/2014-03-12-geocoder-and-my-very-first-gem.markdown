@@ -19,7 +19,7 @@ Geocoder.coordinates("11 broadway, new york, ny") #=> [40.7055269, -74.014346]
 
 But there is a much cooler way to use Geocoder: with ActiveRecord.
 
-If in the table you want to geocode en masse, you can add both a ```latitude``` and ```longitude``` 
+If in the table you want to geocode en masse, you can add both a ```ruby latitude``` and ```ruby longitude``` 
 column in your database table connected with ActiveRecord.  Then, in your model, add the following lines:
 
 ```ruby
@@ -37,7 +37,7 @@ and address.
 So each time I save an element in my table, the geocoder gets the address and fills in the latitude and longitude
 automatically.  I did all these, ran my program, and got this error:
 
-```
+```bash
 Google Geocoding API error: over query limit.
 ```
 
@@ -65,12 +65,12 @@ of error which I found pretty significant for NYC, about a half a mile.  For the
 have used the user's external IP address as the default starting location for directions to the nearest firehouse.
 
 Speaking of which, I am attemping to use this program as an educational experience in my first gem.  Using the
-```near``` function in Geocoder, I can pass geocoder a location (IP, physical address, landmark, etc.) and
+```ruby near ``` function in Geocoder, I can pass geocoder a location (IP, physical address, landmark, etc.) and
 it can return the nearest location in our geocoded database.  I have the program working, but the transition
 into a gem has been difficult and clunky.  Integrating other gems and using bundler has proved to be a thorn in my 
 gem creation's side.  This is the error I've been receiving:
 
-```
+```bash
 /Users/caguthrie/.rvm/gems/ruby-2.0.0-p353/gems/bundler-1.5.2/lib/bundler/shared_helpers.rb:24:in `default_gemfile': Could not locate Gemfile (Bundler::GemfileNotFound)
 ```
 
