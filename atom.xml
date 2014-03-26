@@ -4,7 +4,7 @@
   <title><![CDATA[chrisblogs]]></title>
   <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-03-12T23:44:05-04:00</updated>
+  <updated>2014-03-26T08:49:34-04:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Solid Foundation]]></title>
+    <link href="http://caguthrie.github.io/blog/2014/03/25/building-a-solid-foundation/"/>
+    <updated>2014-03-25T22:18:56-04:00</updated>
+    <id>http://caguthrie.github.io/blog/2014/03/25/building-a-solid-foundation</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m a math guy, a numbers dude, and and analytical person at my core.  The one thing about web design that scared
+me the most is the front-end.  Have you seen my artistic side?  One time I drew a stick figure and the paper exploded.
+True story.  Thankfully, things like Twitter Bootstrap and Foundation exist for artistically inept people such as
+myself to look like we majored in a liberal art.</p>
+
+<p>For those who don&rsquo;t know, Foundation is basically just a huge CSS library that makes your website actually look
+visually appealing.  You can add class attributes to your HTML elements for control over your layout and other
+basic functions.  For a rails app, here is the long and tedious process to install Foundation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;foundation-rails&#39;</span> <span class="c1"># Add this to your Gemfile</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, on your command line, run &lsquo;bundle install&rsquo; and &lsquo;rails g foundation:install&rsquo; to generate the Javascript
+and CSS files it needs.  You&rsquo;re done!  Phew!</p>
+
+<p>Foundation will add a few files to your /assets/javascript and /assets/stylesheets directories.  The main one
+you should care about is the foundation_and_overrides file in the stylesheets directory.</p>
+
+<p>The main thing you should know when styling your page with Foundation, is that each &ldquo;row&rdquo; is split up into 12 the width of 12 columns.  All the neat features are in classes you add as attributes to your tags.  For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;small-4 columns&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    This is some text on the first third of the page, vertically.
+</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;small-8 columns&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    This is some text on the latter two-thirds of the page, vertically.
+</span><span class='line'>    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.google.com&quot;</span> <span class="na">class=</span><span class="s">&quot;button&quot;</span><span class="nt">&gt;</span>This button goes to Google<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, the number of columns in a row add up to 12, as should be.  You can also nest rows and columns
+inside other rows and columns.  For a stylistically challenged person such as myself, this simplicity is
+invaluable.</p>
+
+<p>But let&rsquo;s say you want to style your links so that text link fonts are red.  Remember that foundation_and_overrides
+file I talked about earlier?  Go to that file and look for anchor tag styling &hellip; ah, here it is!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// We use these to style anchors</span>
+</span><span class='line'><span class="c1">// $anchor-text-decoration: none;</span>
+</span><span class='line'><span class="c1">// $anchor-font-color: $primary-color;</span>
+</span><span class='line'><span class="c1">// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now all you do is uncomment the font color and replace it with hex red:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// We use these to style anchors</span>
+</span><span class='line'><span class="c1">// $anchor-text-decoration: none;</span>
+</span><span class='line'><span class="nx">$anchor</span><span class="o">-</span><span class="nx">font</span><span class="o">-</span><span class="nx">color</span><span class="o">:</span> <span class="err">#</span><span class="nx">f00</span><span class="p">;</span>
+</span><span class='line'><span class="c1">// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty easy huh.  You can still go and define your own CSS if you want, but this process makes things much
+easier.</p>
+
+<p>One thing I was most worried about when getting the front-end all nice and pretty was the navigation bar.  With
+foundation, key in a few div tags and you&rsquo;re done.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&quot;contain-to-grid sticky&quot;&gt;</span>
+</span><span class='line'><span class="x">  &lt;nav class=&quot;top-bar&quot; data-topbar&gt;</span>
+</span><span class='line'><span class="x">    &lt;!-- Left Nav Section --&gt;</span>
+</span><span class='line'><span class="x">    &lt;ul class=&quot;left&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;App Name&quot;</span><span class="p">,</span> <span class="n">root_url</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">    &lt;/ul&gt;</span>
+</span><span class='line'><span class="x">    &lt;!-- Right Nav Section --&gt;</span>
+</span><span class='line'><span class="x">    &lt;ul class=&quot;right&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Products&quot;</span><span class="p">,</span> <span class="n">products_path</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      &lt;li class=&quot;has-dropdown&quot;&gt;</span>
+</span><span class='line'><span class="x">        User Info</span>
+</span><span class='line'><span class="x">        &lt;ul class=&quot;dropdown&quot;&gt;</span>
+</span><span class='line'><span class="x">          &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Sign-In&quot;</span><span class="p">,</span> <span class="n">login_path</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">          &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Sign-Up&quot;</span><span class="p">,</span> <span class="n">new_login_path</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">        &lt;/ul&gt;</span>
+</span><span class='line'><span class="x">      &lt;/li&gt;</span>
+</span><span class='line'><span class="x">    &lt;/ul&gt;</span>
+</span><span class='line'><span class="x">  &lt;/nav&gt;</span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The div class sticky makes it so if you scroll down, the nav bar remains fixed to the top of your screen.  I don&rsquo;t
+like that, but I thought I&rsquo;d show you anyway.  Everything else is pretty intuitive, just make sure you add the right
+class to your tags and you&rsquo;re good to go.</p>
+
+<p>In all, Foundation is a quick way to make your website actually visually appealing in no time at all.  And if you&rsquo;re
+artistically retarded such as myself, it makes you passable for at least starving-artist status.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Geocoder and My Very First Gem Attempt Part 1]]></title>
@@ -33,7 +168,7 @@ much about Geocoder and was only able to implement one method to find coordinate
 
 <p>But there is a much cooler way to use Geocoder: with ActiveRecord.</p>
 
-<p>If in the table you want to geocode en masse, you can add both a latitude and longitude
+<p>If you want to geocode your table en masse, you can add both a latitude and longitude
 column in your database table connected with ActiveRecord.  Then, in your model, add the following lines:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
