@@ -67,7 +67,7 @@ easier.
 One thing I was most worried about when getting the front-end all nice and pretty was the navigation bar.  With
 foundation, key in a few div tags and you're done.
 
-```erb
+```html
 <div class="contain-to-grid sticky">
   <nav class="top-bar" data-topbar>
     <!-- Left Nav Section -->
