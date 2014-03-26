@@ -19,7 +19,7 @@ Geocoder.coordinates("11 broadway, new york, ny") #=> [40.7055269, -74.014346]
 
 But there is a much cooler way to use Geocoder: with ActiveRecord.
 
-If in the table you want to geocode en masse, you can add both a latitude and longitude 
+If you want to geocode your table en masse, you can add both a latitude and longitude 
 column in your database table connected with ActiveRecord.  Then, in your model, add the following lines:
 
 ```ruby
