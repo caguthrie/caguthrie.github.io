@@ -40,7 +40,8 @@ end
 ```
 
 Here, we attempt to divide each number by each number smaller than it.  If we are calling this loop on n elements, then
-this will loop t times for every [latex]n_t[/latex], for a time complexity of <script type="math/tex">O(n^2)</script>.  
+this will loop t times for every <script type="math/tex">n_t</script>, for a time complexity of
+<script type="math/tex">O(n^2)</script>.  
 
 
 
