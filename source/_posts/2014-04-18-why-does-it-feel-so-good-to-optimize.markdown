@@ -66,7 +66,7 @@ This took 5.733192 seconds
 Ok, let's try to do better.  First of all, let's think of a math way to fix that find_sum_of_divisors method. No ruby
 magic here.  Since there are no integers less than 2 that divide into any number to come up with a proper divisor, all
 the numbers <script type="math/tex">a</script> given an <script type="math/tex">n</script> in 
-$n\gea\gtn/2$ do not need to be evaluated as those <script type="math/tex">a/n</script> will
+$n\ge a\gt n/2$ do not need to be evaluated as those <script type="math/tex">a/n</script> will
 always be $\gt2$.  So instead of num.times, we can change it to:
 
 ```ruby
