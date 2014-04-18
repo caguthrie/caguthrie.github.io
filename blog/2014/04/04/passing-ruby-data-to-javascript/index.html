@@ -1,3 +1,18 @@
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
 
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
@@ -9,8 +24,8 @@
   <meta name="author" content="Chris Guthrie">
 
   
-  <meta name="description" content="Using more front-end APIs and frameworks, I&rsquo;ve found it useful to be able to, at times, pass data from ruby to my
-Javascript files. The first &hellip;">
+  <meta name="description" content="Using more front-end APIs and frameworks, I’ve found it useful to be able to, at times, pass data from ruby to my
+Javascript files. The first time I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,81 +105,55 @@ Javascript files. The first &hellip;">
   </header>
 
 
-<div class="entry-content"><p>Using more front-end APIs and frameworks, I&rsquo;ve found it useful to be able to, at times, pass data from ruby to my
+<div class="entry-content"><p>Using more front-end APIs and frameworks, I’ve found it useful to be able to, at times, pass data from ruby to my
 Javascript files.  The first time I ran into this problem was in <a href="http://avoid.caguthrie.com">Avoid</a>, the
 NYC restaurant and health violations lookup tool I helped create.  In this app, I used the Google Maps API to
 dynamically update the geographic coordinates of restaurants in bad shape on a google map.  I found this diffucult to
-do as you can&rsquo;t normally access Ruby data from Javascript.  I&rsquo;ve since found out a few ways to do so, and I&rsquo;ll tell you
+do as you can’t normally access Ruby data from Javascript.  I’ve since found out a few ways to do so, and I’ll tell you
 about them now.</p>
-
-<br/>
-
 
 <p><strong>Data Attributes</strong></p>
 
-<br/>
-
-
-<p>One of the simplest ways to pass a very limited amount of data is to use a data attribute on an HTML tag.  For example,
+<p>One of the simplest ways to pass a very limited amount of data is to use a data attribute on an HTML tag.  For example, 
 if I wanted to pass a longitude and latitude from my rails app to Javascript by extracting it through the DOM with
 jQuery:</p>
 
-<br/>
-
-
-<figure class='code'><figcaption><span>index.html.erb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;latlong&quot;</span> <span class="na">data-latitude=</span><span class="s">&quot;32.796283&quot;</span> <span class="na">data-longitude=</span><span class="s">&quot;-117.129574&quot;</span><span class="nt">&gt;</span>Something that doesn&#39;t matter<span class="nt">&lt;/span&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>coords.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.latlong&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">);</span> <span class="c1">//= &quot;32.796283&quot;</span>
-</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.latlong&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">);</span> <span class="c1">//= &quot;-117.129574&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see, this is realatively simple and straight forward.  It doesn&rsquo;t matter what is inside whatever
-tag you have used to store your data, you&rsquo;re just referencing the attributes of the tag itself.  Also, it could be
-any type of tag.  This is easy when the data you need to access isn&rsquo;t an object, but it a more primative data type,
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>index.html.erb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;latlong&quot;</span> <span class="na">data-latitude=</span><span class="s">&quot;32.796283&quot;</span> <span class="na">data-longitude=</span><span class="s">&quot;-117.129574&quot;</span><span class="nt">&gt;</span>Something that doesn&#39;t matter<span class="nt">&lt;/span&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>coords.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.latlong&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">);</span> <span class="c1">//= &quot;32.796283&quot;</span>
+</span><span class="line"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.latlong&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">);</span> <span class="c1">//= &quot;-117.129574&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>As you can see, this is realatively simple and straight forward.  It doesn’t matter what is inside whatever
+tag you have used to store your data, you’re just referencing the attributes of the tag itself.  Also, it could be
+any type of tag.  This is easy when the data you need to access isn’t an object, but it a more primative data type, 
 or string.</p>
-
-<br/>
-
 
 <p><strong>Gon Gem</strong></p>
 
-<br/>
-
-
 <p>The <a href="https://github.com/gazay/gon">Gon Gem</a> is another way to do this, and it is generally more useful
-when you are trying to pass more complex data-types, such as objects.  Very simply, just install Gon:</p>
-
-<figure class='code'><figcaption><span>Gemfile.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;gon&#39;</span> <span class="c1"># Put this in your Gemfile</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, in your conroller, or really wherever in your app you want to store your data for Javascript use:</p>
-
-<figure class='code'><figcaption><span>Users_Controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gon</span><span class="o">.</span><span class="n">last_three_users</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="ss">:desc</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>users.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Welcome our three newest users!&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="k">for</span><span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">gon</span><span class="p">.</span><span class="nx">last_three_users</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">){</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">last_three_users</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Simple enough.  That saves a lot of time and cleans up your views nicely.  No more Javascript hanging out in .html.erb
+when you are trying to pass more complex data-types, such as objects.  Very simply, just install Gon:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>Gemfile.rb</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="n">gem</span> <span class="s1">&#39;gon&#39;</span> <span class="c1"># Put this in your Gemfile</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+Then, in your conroller, or really wherever in your app you want to store your data for Javascript use:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>Users_Controller.rb</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="n">gon</span><span class="o">.</span><span class="n">last_three_users</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="ss">:desc</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>users.js</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="javascript"><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Welcome our three newest users!&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="k">for</span><span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">gon</span><span class="p">.</span><span class="nx">last_three_users</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">){</span>
+</span><span class="line">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">last_three_users</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+Simple enough.  That saves a lot of time and cleans up your views nicely.  No more Javascript hanging out in .html.erb
 files.</p>
+
 </div>
 
 
@@ -207,6 +196,8 @@ files.</p>
         <a class="basic-alignment left" href="/blog/2014/03/25/building-a-solid-foundation/" title="Previous Post: Building a Solid Foundation">&laquo; Building a Solid Foundation</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/" title="Next Post: Memoization and why does it feel so good to optimize?">Memoization and why does it feel so good to optimize? &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -228,6 +219,10 @@ files.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/">Memoization and Why Does It Feel So Good to Optimize?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/04/passing-ruby-data-to-javascript/">Passing Ruby Data to Javascript</a>
       </li>
     
@@ -241,10 +236,6 @@ files.</p>
     
       <li class="post">
         <a href="/blog/2014/02/27/smooth-as-sinatra/">Smooth as Sinatra</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/12/enumberable-is-enumermazing/">Enumberable Is Enumermazing</a>
       </li>
     
   </ul>

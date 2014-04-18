@@ -1,3 +1,18 @@
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
 
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
@@ -89,92 +104,71 @@
   </header>
 
 
-<div class="entry-content"><p><em>The best revenge is massive success.<br>-Frank Sinatra</em><br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.  So come fly with me, let&#8217;s fly away &#8230;</p>
-
-
-<br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/favorite_singer/*/favorite_album/*&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="c1"># example: /favorite_singer/frank_sinatra/favorite_album/come_fly_with_me</span>
-</span><span class='line'>  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;frank_sinatra&quot;, &quot;come_fly_with_me&quot;]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="entry-content"><p><em>The best revenge is massive success.<br />-Frank Sinatra</em><br /><br />Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.  So come fly with me, let&#8217;s fly away &#8230;</p>
+<p><br /><b>&lt;h3&gt;Sinatra Splat</b>&lt;/h3&gt;<br />&lt;p&gt;Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:&lt;/p&gt;
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/favorite_singer/*/favorite_album/*&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="c1"># example: /favorite_singer/frank_sinatra/favorite_album/come_fly_with_me</span>
+</span><span class="line">  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;frank_sinatra&quot;, &quot;come_fly_with_me&quot;]</span>
+</span><span class="line"><span class="k">end</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 <p>Here, you can let your user go to any sub-path where your wildcards are and get those sub-path names back to you in a handy array using the :splat symbol key in the params hash.  This could be useful in a product catalog, or in any case where there could be a large number of keys that could return data from a database.  There are other useful ways to use splats in pathnames, like for downloads:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/download/*.*&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="c1"># goes to /download/path/file.zip</span>
-</span><span class='line'>  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;path/file&quot;, &quot;zip&quot;]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/download/*.*&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="c1"># goes to /download/path/file.zip</span>
+</span><span class="line">  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;path/file&quot;, &quot;zip&quot;]</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>If you wanted a custom page for your users to look at while they download a file, you could easily do something similar to that.  Sites like cnet.com and download.com may use Sinatra as they similar downloader pages.</p>
-
-
-<br><b><h3>Multiple gets for a sub-path</b></h3><br><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at unnecessary complexity of the previous sentence, that may make zero sense to some people.  So, I have an easy example below:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/:cap&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">pass</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:cap</span><span class="o">].</span><span class="n">downcase</span> <span class="o">!=</span> <span class="s2">&quot;sacramento&quot;</span>
-</span><span class='line'>  <span class="s2">&quot;Correct!!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/*&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="s2">&quot;Your knowledge of 3rd grade US geography is disasterous!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<p><br /><b>&lt;h3&gt;Multiple gets for a sub-path</b>&lt;/h3&gt;<br />&lt;p&gt;Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at unnecessary complexity of the previous sentence, that may make zero sense to some people.  So, I have an easy example below:&lt;/p&gt;
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/:cap&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">pass</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:cap</span><span class="o">].</span><span class="n">downcase</span> <span class="o">!=</span> <span class="s2">&quot;sacramento&quot;</span>
+</span><span class="line">  <span class="s2">&quot;Correct!!&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/*&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="s2">&quot;Your knowledge of 3rd grade US geography is disasterous!&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 <p>Using the pass method in sinatra, the rest of the logic in the first get block is not executed and the next get method fitting the path parameters is executed.  It&#8217;s another added bonus of the lazy ruby interpreter.</p>
+<p><br /><b>&lt;h3&gt;Browser Redirect</b>&lt;/h3&gt;<br />&lt;p&gt;Lastly, you may want to redirect a user to a different path after you’ve taken some action.  Maybe, for example, after you’ve filled out a form or shown a quick advertisment.  The redirect method is a quick way to do that, and you can implement it like so:</p>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/restricted_area&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="s2">&quot;Why are you here!? Go away!&quot;</span>
+</span><span class="line">  <span class="nb">sleep</span> <span class="mi">2</span>
+</span><span class="line">  <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">&#39;/public_area&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">get</span> <span class="s1">&#39;/public_area&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="s2">&quot;Welcome!&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<br><b><h3>Browser Redirect</b></h3><br><p>Lastly, you may want to redirect a user to a different path after you&#8217;ve taken some action.  Maybe, for example, after you&#8217;ve filled out a form or shown a quick advertisment.  The redirect method is a quick way to do that, and you can implement it like so:
+<p>So pull up a fine leather chair, a glass of scotch, and enjoy the classiness that Sinatra has to offer you.  If there’s a problem in a web app you need solving, old blue eyes has you covered.</p>
 
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/restricted_area&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="s2">&quot;Why are you here!? Go away!&quot;</span>
-</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">2</span>
-</span><span class='line'>  <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">&#39;/public_area&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/public_area&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="s2">&quot;Welcome!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So pull up a fine leather chair, a glass of scotch, and enjoy the classiness that Sinatra has to offer you.  If there&rsquo;s a problem in a web app you need solving, old blue eyes has you covered.</p>
 </div>
 
 
@@ -199,6 +193,12 @@
 
 <time datetime="2014-02-27T11:10:24-05:00" pubdate data-updated="true">Feb 27<span>th</span>, 2014</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/sinatra/'>Sinatra,</a>
+  
+</span>
 
 
     </p>
@@ -240,6 +240,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/">Memoization and Why Does It Feel So Good to Optimize?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/04/passing-ruby-data-to-javascript/">Passing Ruby Data to Javascript</a>
       </li>
     
@@ -253,10 +257,6 @@
     
       <li class="post">
         <a href="/blog/2014/02/27/smooth-as-sinatra/">Smooth as Sinatra</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/12/enumberable-is-enumermazing/">Enumberable Is Enumermazing</a>
       </li>
     
   </ul>

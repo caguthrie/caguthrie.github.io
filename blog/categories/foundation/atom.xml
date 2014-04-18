@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Foundation | chrisblogs]]></title>
+  <link href="http://caguthrie.github.io/blog/categories/foundation/atom.xml" rel="self"/>
+  <link href="http://caguthrie.github.io/"/>
+  <updated>2014-04-18T13:12:02-04:00</updated>
+  <id>http://caguthrie.github.io/</id>
+  <author>
+    <name><![CDATA[Chris Guthrie]]></name>
+    <email><![CDATA[christopher.guthrie@flatironschool.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Building a Solid Foundation]]></title>
+    <link href="http://caguthrie.github.io/blog/2014/03/25/building-a-solid-foundation/"/>
+    <updated>2014-03-25T22:18:56-04:00</updated>
+    <id>http://caguthrie.github.io/blog/2014/03/25/building-a-solid-foundation</id>
+    <content type="html"><![CDATA[<p>I’m a math guy, a numbers dude, and and analytical person at my core.  The one thing about web design that scared 
+me the most is the front-end.  Have you seen my artistic side?  One time I drew a stick figure and the paper exploded.
+True story.  Thankfully, things like Twitter Bootstrap and Foundation exist for artistically inept people such as 
+myself to look like we majored in a liberal art.</p>
+
+<p>For those who don’t know, Foundation is basically just a huge CSS library that makes your website actually look
+visually appealing.  You can add class attributes to your HTML elements for control over your layout and other
+basic functions.  For a rails app, here is the long and tedious process to install Foundation:</p>
+
+<p><code>ruby
+gem 'foundation-rails' # Add this to your Gemfile
+</code></p>
+
+<p>Then, on your command line, run ‘bundle install’ and ‘rails g foundation:install’ to generate the Javascript
+and CSS files it needs.  You’re done!  Phew!</p>
+
+<p>Foundation will add a few files to your /assets/javascript and /assets/stylesheets directories.  The main one
+you should care about is the foundation_and_overrides file in the stylesheets directory.</p>
+
+<p>The main thing you should know when styling your page with Foundation, is that each “row” is split up into 12 the width of 12 columns.  All the neat features are in classes you add as attributes to your tags.  For example:</p>
+
+<p><code>html
+&lt;div class="row"&gt;
+  &lt;div class="small-4 columns"&gt;
+    This is some text on the first third of the page, vertically.
+  &lt;/div&gt;
+  &lt;div class="small-8 columns"&gt;
+    This is some text on the latter two-thirds of the page, vertically.
+    &lt;a href="http://www.google.com" class="button"&gt;This button goes to Google&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></p>
+
+<p>As you can see, the number of columns in a row add up to 12, as should be.  You can also nest rows and columns 
+inside other rows and columns.  For a stylistically challenged person such as myself, this simplicity is 
+invaluable.  </p>
+
+<p>But let’s say you want to style your links so that text link fonts are red.  Remember that foundation_and_overrides
+file I talked about earlier?  Go to that file and look for anchor tag styling … ah, here it is!</p>
+
+<p><code>javascript
+// We use these to style anchors
+// $anchor-text-decoration: none;
+// $anchor-font-color: $primary-color;
+// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);
+</code></p>
+
+<p>Now all you do is uncomment the font color and replace it with hex red:</p>
+
+<p><code>javascript
+// We use these to style anchors
+// $anchor-text-decoration: none;
+$anchor-font-color: #f00;
+// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);
+</code></p>
+
+<p>Pretty easy huh.  You can still go and define your own CSS if you want, but this process makes things much
+easier.</p>
+
+<p>One thing I was most worried about when getting the front-end all nice and pretty was the navigation bar.  With
+foundation, key in a few div tags and you’re done.</p>
+
+<p><code>html
+&lt;div class="contain-to-grid sticky"&gt;
+  &lt;nav class="top-bar" data-topbar&gt;
+    &lt;!-- Left Nav Section --&gt;
+    &lt;ul class="left"&gt;
+      &lt;li&gt;&lt;%= link_to "App Name", root_url %&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;!-- Right Nav Section --&gt;
+    &lt;ul class="right"&gt;
+      &lt;li&gt;&lt;%= link_to "Products", products_path %&gt;&lt;/li&gt;
+      &lt;li class="has-dropdown"&gt;
+        User Info
+        &lt;ul class="dropdown"&gt;
+          &lt;li&gt;&lt;%= link_to "Sign-In", login_path %&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;%= link_to "Sign-Up", new_login_path %&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/div&gt;
+</code></p>
+
+<p>The div class sticky makes it so if you scroll down, the nav bar remains fixed to the top of your screen.  I don’t
+like that, but I thought I’d show you anyway.  Everything else is pretty intuitive, just make sure you add the right
+class to your tags and you’re good to go.</p>
+
+<p>In all, Foundation is a quick way to make your website actually visually appealing in no time at all.  And if you’re
+artistically retarded such as myself, it makes you passable for at least starving-artist status.</p>
+
+]]></content>
+  </entry>
+  
+</feed>

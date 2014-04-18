@@ -1,0 +1,286 @@
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Memoization and Why Does It Feel So Good to Optimize? - chrisblogs</title>
+  <meta name="author" content="Chris Guthrie">
+
+  
+  <meta name="description" content="Recently I was faced with a challenge from Project Euler and asked how I would
+best optimize the solution I wrote. Thinking for a little bit, I made &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://caguthrie.github.io/blog/2014/04/18/why-does-it-feel-so-good-to-optimize">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="chrisblogs" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:caguthrie.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">
+        <span class="blue_light">
+            chrisblogs
+        </span>
+       
+    </a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About me and Projects</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Memoization and Why Does It Feel So Good to Optimize?</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-18T11:14:58-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Recently I was faced with a challenge from <a href="http://projecteuler.net/">Project Euler</a> and asked how I would
+best optimize the solution I wrote.  Thinking for a little bit, I made a few changes, but none were as interesting as
+as term that I had never heard before, but understood the concept: Memoization.</p>
+
+<p>Memoization is the concept of storing a data in memory that you may reference again at a later time, instead of
+calling a function with parameters you have already passed it previously.  I’ll show you how we can use memoization
+and a little bit of logic to optimize a problem from Project Euler.</p>
+
+<p><strong>Project Euler Problem #21: Amicable Numbers</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Let d(n) be defined as the sum of proper divisors of n (numbers less than n which divide evenly into n).
+</span><span class="line">If d(a) = b and d(b) = a, where a ≠ b, then a and b are an amicable pair and each of a and b are called amicable numbers.
+</span><span class="line">
+</span><span class="line">For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+</span><span class="line">
+</span><span class="line">Evaluate the sum of all the amicable numbers under 10000.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>You can find my first solution <a href="https://github.com/caguthrie/pe21/blob/master/amicable.rb">here</a>.  Obviously,
+the most expensive operations in an program are those which iterate or recurse.  In this case, we have one different
+loop that looks particularly expensive:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">find_sum_of_divisors</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</span><span class="line">  <span class="c1"># can optimize this by going up to half of num</span>
+</span><span class="line">  <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">  <span class="n">num</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class="line">    <span class="n">sum</span> <span class="o">+=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">num</span> <span class="o">!=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">  <span class="n">sum</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Here, we attempt to divide each number by each number smaller than it.  If we are calling this loop on n elements, then
+this will loop t times for every [latex]n_t[/latex], for a time complexity of \O(n^2).  </p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Chris Guthrie</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-18T11:14:58-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/math/'>Math,</a>, <a class='category' href='/blog/categories/optimization/'>Optimization</a>, <a class='category' href='/blog/categories/ruby/'>Ruby,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://caguthrie.github.io/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/" data-via="" data-counturl="http://caguthrie.github.io/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/04/passing-ruby-data-to-javascript/" title="Previous Post: Passing Ruby Data to Javascript">&laquo; Passing Ruby Data to Javascript</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <div style="margin-top:15px; ">
+    <img style="" class="left" src='http://i.minus.com/iGpwixQhqCcO5.jpg'/>
+    <p><a href="http://caguthrie.github.io">Chris Guthrie</a><br/>
+    Developing Ruby Developer, Poker Enthusiast<br>New York, NY</p>
+  </div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/">Memoization and Why Does It Feel So Good to Optimize?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/04/passing-ruby-data-to-javascript/">Passing Ruby Data to Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/25/building-a-solid-foundation/">Building a Solid Foundation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/12/geocoder-and-my-very-first-gem/">Geocoder and My Very First Gem Attempt Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/27/smooth-as-sinatra/">Smooth as Sinatra</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Chris Guthrie -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,3 +1,18 @@
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
 
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
@@ -9,9 +24,8 @@
   <meta name="author" content="Chris Guthrie">
 
   
-  <meta name="description" content="Blog Archive 2014 Passing Ruby Data to Javascript
-Apr 04 2014 Building a Solid Foundation
-Mar 25 2014 Geocoder and My Very First Gem Attempt Part 1 &hellip;">
+  <meta name="description" content="Blog Archive 2014 Memoization and Why Does It Feel So Good to Optimize?
+Apr 18 2014 posted in Math,, Optimization, Ruby, Passing Ruby Data to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +94,20 @@ Mar 25 2014 Geocoder and My Very First Gem Attempt Part 1 &hellip;">
 
 <article>
   
+<h1><a href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/">Memoization and Why Does It Feel So Good to Optimize?</a></h1>
+<time datetime="2014-04-18T11:14:58-04:00" pubdate><span class='month'>Apr</span> <span class='day'>18</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/math/'>Math,</a>, <a class='category' href='/blog/categories/optimization/'>Optimization</a>, <a class='category' href='/blog/categories/ruby/'>Ruby,</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
 <h1><a href="/blog/2014/04/04/passing-ruby-data-to-javascript/">Passing Ruby Data to Javascript</a></h1>
 <time datetime="2014-04-04T15:36:42-04:00" pubdate><span class='month'>Apr</span> <span class='day'>04</span> <span class='year'>2014</span></time>
 
@@ -93,6 +121,10 @@ Mar 25 2014 Geocoder and My Very First Gem Attempt Part 1 &hellip;">
 <h1><a href="/blog/2014/03/25/building-a-solid-foundation/">Building a Solid Foundation</a></h1>
 <time datetime="2014-03-25T22:18:56-04:00" pubdate><span class='month'>Mar</span> <span class='day'>25</span> <span class='year'>2014</span></time>
 
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/css/'>CSS,</a>, <a class='category' href='/blog/categories/foundation/'>Foundation</a>, <a class='category' href='/blog/categories/front-end/'>Front-End,</a>, <a class='category' href='/blog/categories/html/'>HTML,</a>, <a class='category' href='/blog/categories/ruby/'>Ruby,</a></span>
+</footer>
+
 
 </article>
 
@@ -103,6 +135,10 @@ Mar 25 2014 Geocoder and My Very First Gem Attempt Part 1 &hellip;">
 <h1><a href="/blog/2014/03/12/geocoder-and-my-very-first-gem/">Geocoder and My Very First Gem Attempt Part 1</a></h1>
 <time datetime="2014-03-12T13:28:18-04:00" pubdate><span class='month'>Mar</span> <span class='day'>12</span> <span class='year'>2014</span></time>
 
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/gems/'>Gems,</a>, <a class='category' href='/blog/categories/geocoder/'>Geocoder</a>, <a class='category' href='/blog/categories/ruby/'>Ruby,</a></span>
+</footer>
+
 
 </article>
 
@@ -112,6 +148,10 @@ Mar 25 2014 Geocoder and My Very First Gem Attempt Part 1 &hellip;">
   
 <h1><a href="/blog/2014/02/27/smooth-as-sinatra/">Smooth as Sinatra</a></h1>
 <time datetime="2014-02-27T11:10:24-05:00" pubdate><span class='month'>Feb</span> <span class='day'>27</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/sinatra/'>Sinatra,</a></span>
+</footer>
 
 
 </article>
@@ -152,6 +192,10 @@ Mar 25 2014 Geocoder and My Very First Gem Attempt Part 1 &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/">Memoization and Why Does It Feel So Good to Optimize?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/04/passing-ruby-data-to-javascript/">Passing Ruby Data to Javascript</a>
       </li>
     
@@ -165,10 +209,6 @@ Mar 25 2014 Geocoder and My Very First Gem Attempt Part 1 &hellip;">
     
       <li class="post">
         <a href="/blog/2014/02/27/smooth-as-sinatra/">Smooth as Sinatra</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/12/enumberable-is-enumermazing/">Enumberable Is Enumermazing</a>
       </li>
     
   </ul>

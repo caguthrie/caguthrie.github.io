@@ -1,3 +1,18 @@
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
 
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
@@ -9,8 +24,8 @@
   <meta name="author" content="Chris Guthrie">
 
   
-  <meta name="description" content="Using more front-end APIs and frameworks, I&rsquo;ve found it useful to be able to, at times, pass data from ruby to my
-Javascript files. The first &hellip;">
+  <meta name="description" content="Recently I was faced with a challenge from Project Euler and asked how I would
+best optimize the solution I wrote. Thinking for a little bit, I made &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +85,89 @@ Javascript files. The first &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/">Memoization and Why Does It Feel So Good to Optimize?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-18T11:14:58-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently I was faced with a challenge from <a href="http://projecteuler.net/">Project Euler</a> and asked how I would
+best optimize the solution I wrote.  Thinking for a little bit, I made a few changes, but none were as interesting as
+as term that I had never heard before, but understood the concept: Memoization.</p>
+
+<p>Memoization is the concept of storing a data in memory that you may reference again at a later time, instead of
+calling a function with parameters you have already passed it previously.  I’ll show you how we can use memoization
+and a little bit of logic to optimize a problem from Project Euler.</p>
+
+<p><strong>Project Euler Problem #21: Amicable Numbers</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Let d(n) be defined as the sum of proper divisors of n (numbers less than n which divide evenly into n).
+</span><span class="line">If d(a) = b and d(b) = a, where a ≠ b, then a and b are an amicable pair and each of a and b are called amicable numbers.
+</span><span class="line">
+</span><span class="line">For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+</span><span class="line">
+</span><span class="line">Evaluate the sum of all the amicable numbers under 10000.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>You can find my first solution <a href="https://github.com/caguthrie/pe21/blob/master/amicable.rb">here</a>.  Obviously,
+the most expensive operations in an program are those which iterate or recurse.  In this case, we have one different
+loop that looks particularly expensive:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">find_sum_of_divisors</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</span><span class="line">  <span class="c1"># can optimize this by going up to half of num</span>
+</span><span class="line">  <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">  <span class="n">num</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class="line">    <span class="n">sum</span> <span class="o">+=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">num</span> <span class="o">!=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">  <span class="n">sum</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Here, we attempt to divide each number by each number smaller than it.  If we are calling this loop on n elements, then
+this will loop t times for every [latex]n_t[/latex], for a time complexity of \O(n^2).  </p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/04/04/passing-ruby-data-to-javascript/">Passing Ruby Data to Javascript</a></h1>
     
     
@@ -93,81 +191,55 @@ Javascript files. The first &hellip;">
   </header>
 
 
-  <div class="entry-content"><p>Using more front-end APIs and frameworks, I&rsquo;ve found it useful to be able to, at times, pass data from ruby to my
+  <div class="entry-content"><p>Using more front-end APIs and frameworks, I’ve found it useful to be able to, at times, pass data from ruby to my
 Javascript files.  The first time I ran into this problem was in <a href="http://avoid.caguthrie.com">Avoid</a>, the
 NYC restaurant and health violations lookup tool I helped create.  In this app, I used the Google Maps API to
 dynamically update the geographic coordinates of restaurants in bad shape on a google map.  I found this diffucult to
-do as you can&rsquo;t normally access Ruby data from Javascript.  I&rsquo;ve since found out a few ways to do so, and I&rsquo;ll tell you
+do as you can’t normally access Ruby data from Javascript.  I’ve since found out a few ways to do so, and I’ll tell you
 about them now.</p>
-
-<br/>
-
 
 <p><strong>Data Attributes</strong></p>
 
-<br/>
-
-
-<p>One of the simplest ways to pass a very limited amount of data is to use a data attribute on an HTML tag.  For example,
+<p>One of the simplest ways to pass a very limited amount of data is to use a data attribute on an HTML tag.  For example, 
 if I wanted to pass a longitude and latitude from my rails app to Javascript by extracting it through the DOM with
 jQuery:</p>
 
-<br/>
-
-
-<figure class='code'><figcaption><span>index.html.erb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;latlong&quot;</span> <span class="na">data-latitude=</span><span class="s">&quot;32.796283&quot;</span> <span class="na">data-longitude=</span><span class="s">&quot;-117.129574&quot;</span><span class="nt">&gt;</span>Something that doesn&#39;t matter<span class="nt">&lt;/span&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>coords.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.latlong&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">);</span> <span class="c1">//= &quot;32.796283&quot;</span>
-</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.latlong&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">);</span> <span class="c1">//= &quot;-117.129574&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see, this is realatively simple and straight forward.  It doesn&rsquo;t matter what is inside whatever
-tag you have used to store your data, you&rsquo;re just referencing the attributes of the tag itself.  Also, it could be
-any type of tag.  This is easy when the data you need to access isn&rsquo;t an object, but it a more primative data type,
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>index.html.erb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;latlong&quot;</span> <span class="na">data-latitude=</span><span class="s">&quot;32.796283&quot;</span> <span class="na">data-longitude=</span><span class="s">&quot;-117.129574&quot;</span><span class="nt">&gt;</span>Something that doesn&#39;t matter<span class="nt">&lt;/span&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>coords.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.latlong&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">);</span> <span class="c1">//= &quot;32.796283&quot;</span>
+</span><span class="line"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.latlong&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">);</span> <span class="c1">//= &quot;-117.129574&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>As you can see, this is realatively simple and straight forward.  It doesn’t matter what is inside whatever
+tag you have used to store your data, you’re just referencing the attributes of the tag itself.  Also, it could be
+any type of tag.  This is easy when the data you need to access isn’t an object, but it a more primative data type, 
 or string.</p>
-
-<br/>
-
 
 <p><strong>Gon Gem</strong></p>
 
-<br/>
-
-
 <p>The <a href="https://github.com/gazay/gon">Gon Gem</a> is another way to do this, and it is generally more useful
-when you are trying to pass more complex data-types, such as objects.  Very simply, just install Gon:</p>
-
-<figure class='code'><figcaption><span>Gemfile.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;gon&#39;</span> <span class="c1"># Put this in your Gemfile</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, in your conroller, or really wherever in your app you want to store your data for Javascript use:</p>
-
-<figure class='code'><figcaption><span>Users_Controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gon</span><span class="o">.</span><span class="n">last_three_users</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="ss">:desc</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>users.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Welcome our three newest users!&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="k">for</span><span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">gon</span><span class="p">.</span><span class="nx">last_three_users</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">){</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">last_three_users</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Simple enough.  That saves a lot of time and cleans up your views nicely.  No more Javascript hanging out in .html.erb
+when you are trying to pass more complex data-types, such as objects.  Very simply, just install Gon:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>Gemfile.rb</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="n">gem</span> <span class="s1">&#39;gon&#39;</span> <span class="c1"># Put this in your Gemfile</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+Then, in your conroller, or really wherever in your app you want to store your data for Javascript use:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>Users_Controller.rb</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="n">gon</span><span class="o">.</span><span class="n">last_three_users</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="ss">:desc</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>users.js</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="javascript"><span class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Welcome our three newest users!&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="k">for</span><span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">gon</span><span class="p">.</span><span class="nx">last_three_users</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">){</span>
+</span><span class="line">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">last_three_users</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+Simple enough.  That saves a lot of time and cleans up your views nicely.  No more Javascript hanging out in .html.erb
 files.</p>
+
 </div>
   
   
@@ -203,133 +275,129 @@ files.</p>
   </header>
 
 
-  <div class="entry-content"><p>I&rsquo;m a math guy, a numbers dude, and and analytical person at my core.  The one thing about web design that scared
+  <div class="entry-content"><p>I’m a math guy, a numbers dude, and and analytical person at my core.  The one thing about web design that scared 
 me the most is the front-end.  Have you seen my artistic side?  One time I drew a stick figure and the paper exploded.
-True story.  Thankfully, things like Twitter Bootstrap and Foundation exist for artistically inept people such as
+True story.  Thankfully, things like Twitter Bootstrap and Foundation exist for artistically inept people such as 
 myself to look like we majored in a liberal art.</p>
 
-<p>For those who don&rsquo;t know, Foundation is basically just a huge CSS library that makes your website actually look
+<p>For those who don’t know, Foundation is basically just a huge CSS library that makes your website actually look
 visually appealing.  You can add class attributes to your HTML elements for control over your layout and other
 basic functions.  For a rails app, here is the long and tedious process to install Foundation:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;foundation-rails&#39;</span> <span class="c1"># Add this to your Gemfile</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">gem</span> <span class="s1">&#39;foundation-rails&#39;</span> <span class="c1"># Add this to your Gemfile</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<p>Then, on your command line, run &lsquo;bundle install&rsquo; and &lsquo;rails g foundation:install&rsquo; to generate the Javascript
-and CSS files it needs.  You&rsquo;re done!  Phew!</p>
+<p>Then, on your command line, run ‘bundle install’ and ‘rails g foundation:install’ to generate the Javascript
+and CSS files it needs.  You’re done!  Phew!</p>
 
 <p>Foundation will add a few files to your /assets/javascript and /assets/stylesheets directories.  The main one
 you should care about is the foundation_and_overrides file in the stylesheets directory.</p>
 
-<p>The main thing you should know when styling your page with Foundation, is that each &ldquo;row&rdquo; is split up into 12 the width of 12 columns.  All the neat features are in classes you add as attributes to your tags.  For example:</p>
+<p>The main thing you should know when styling your page with Foundation, is that each “row” is split up into 12 the width of 12 columns.  All the neat features are in classes you add as attributes to your tags.  For example:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;small-4 columns&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    This is some text on the first third of the page, vertically.
-</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;small-8 columns&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    This is some text on the latter two-thirds of the page, vertically.
-</span><span class='line'>    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.google.com&quot;</span> <span class="na">class=</span><span class="s">&quot;button&quot;</span><span class="nt">&gt;</span>This button goes to Google<span class="nt">&lt;/a&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;small-4 columns&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">    This is some text on the first third of the page, vertically.
+</span><span class="line">  <span class="nt">&lt;/div&gt;</span>
+</span><span class="line">  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;small-8 columns&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">    This is some text on the latter two-thirds of the page, vertically.
+</span><span class="line">    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.google.com&quot;</span> <span class="na">class=</span><span class="s">&quot;button&quot;</span><span class="nt">&gt;</span>This button goes to Google<span class="nt">&lt;/a&gt;</span>
+</span><span class="line">  <span class="nt">&lt;/div&gt;</span>
+</span><span class="line"><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>As you can see, the number of columns in a row add up to 12, as should be.  You can also nest rows and columns 
+inside other rows and columns.  For a stylistically challenged person such as myself, this simplicity is 
+invaluable.  </p>
 
-<p>As you can see, the number of columns in a row add up to 12, as should be.  You can also nest rows and columns
-inside other rows and columns.  For a stylistically challenged person such as myself, this simplicity is
-invaluable.</p>
+<p>But let’s say you want to style your links so that text link fonts are red.  Remember that foundation_and_overrides
+file I talked about earlier?  Go to that file and look for anchor tag styling … ah, here it is!</p>
 
-<p>But let&rsquo;s say you want to style your links so that text link fonts are red.  Remember that foundation_and_overrides
-file I talked about earlier?  Go to that file and look for anchor tag styling &hellip; ah, here it is!</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// We use these to style anchors</span>
-</span><span class='line'><span class="c1">// $anchor-text-decoration: none;</span>
-</span><span class='line'><span class="c1">// $anchor-font-color: $primary-color;</span>
-</span><span class='line'><span class="c1">// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// We use these to style anchors</span>
+</span><span class="line"><span class="c1">// $anchor-text-decoration: none;</span>
+</span><span class="line"><span class="c1">// $anchor-font-color: $primary-color;</span>
+</span><span class="line"><span class="c1">// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Now all you do is uncomment the font color and replace it with hex red:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// We use these to style anchors</span>
-</span><span class='line'><span class="c1">// $anchor-text-decoration: none;</span>
-</span><span class='line'><span class="nx">$anchor</span><span class="o">-</span><span class="nx">font</span><span class="o">-</span><span class="nx">color</span><span class="o">:</span> <span class="err">#</span><span class="nx">f00</span><span class="p">;</span>
-</span><span class='line'><span class="c1">// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="c1">// We use these to style anchors</span>
+</span><span class="line"><span class="c1">// $anchor-text-decoration: none;</span>
+</span><span class="line"><span class="nx">$anchor</span><span class="o">-</span><span class="nx">font</span><span class="o">-</span><span class="nx">color</span><span class="o">:</span> <span class="err">#</span><span class="nx">f00</span><span class="p">;</span>
+</span><span class="line"><span class="c1">// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Pretty easy huh.  You can still go and define your own CSS if you want, but this process makes things much
 easier.</p>
 
 <p>One thing I was most worried about when getting the front-end all nice and pretty was the navigation bar.  With
-foundation, key in a few div tags and you&rsquo;re done.</p>
+foundation, key in a few div tags and you’re done.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;contain-to-grid sticky&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">&quot;top-bar&quot;</span> <span class="na">data-topbar</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="c">&lt;!-- Left Nav Section --&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;left&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;li&gt;</span><span class="err">&lt;</span>%= link_to &quot;App Name&quot;, root_url %&gt;<span class="nt">&lt;/li&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/ul&gt;</span>
-</span><span class='line'>    <span class="c">&lt;!-- Right Nav Section --&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;right&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;li&gt;</span><span class="err">&lt;</span>%= link_to &quot;Products&quot;, products_path %&gt;<span class="nt">&lt;/li&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;has-dropdown&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>        User Info
-</span><span class='line'>        <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;dropdown&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>          <span class="nt">&lt;li&gt;</span><span class="err">&lt;</span>%= link_to &quot;Sign-In&quot;, login_path %&gt;<span class="nt">&lt;/li&gt;</span>
-</span><span class='line'>          <span class="nt">&lt;li&gt;</span><span class="err">&lt;</span>%= link_to &quot;Sign-Up&quot;, new_login_path %&gt;<span class="nt">&lt;/li&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;/ul&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;/li&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/ul&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/nav&gt;</span>
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;contain-to-grid sticky&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">  <span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">&quot;top-bar&quot;</span> <span class="na">data-topbar</span><span class="nt">&gt;</span>
+</span><span class="line">    <span class="c">&lt;!-- Left Nav Section --&gt;</span>
+</span><span class="line">    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;left&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">      <span class="nt">&lt;li&gt;</span><span class="err">&lt;</span>%= link_to &quot;App Name&quot;, root_url %&gt;<span class="nt">&lt;/li&gt;</span>
+</span><span class="line">    <span class="nt">&lt;/ul&gt;</span>
+</span><span class="line">    <span class="c">&lt;!-- Right Nav Section --&gt;</span>
+</span><span class="line">    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;right&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">      <span class="nt">&lt;li&gt;</span><span class="err">&lt;</span>%= link_to &quot;Products&quot;, products_path %&gt;<span class="nt">&lt;/li&gt;</span>
+</span><span class="line">      <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;has-dropdown&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">        User Info
+</span><span class="line">        <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;dropdown&quot;</span><span class="nt">&gt;</span>
+</span><span class="line">          <span class="nt">&lt;li&gt;</span><span class="err">&lt;</span>%= link_to &quot;Sign-In&quot;, login_path %&gt;<span class="nt">&lt;/li&gt;</span>
+</span><span class="line">          <span class="nt">&lt;li&gt;</span><span class="err">&lt;</span>%= link_to &quot;Sign-Up&quot;, new_login_path %&gt;<span class="nt">&lt;/li&gt;</span>
+</span><span class="line">        <span class="nt">&lt;/ul&gt;</span>
+</span><span class="line">      <span class="nt">&lt;/li&gt;</span>
+</span><span class="line">    <span class="nt">&lt;/ul&gt;</span>
+</span><span class="line">  <span class="nt">&lt;/nav&gt;</span>
+</span><span class="line"><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>The div class sticky makes it so if you scroll down, the nav bar remains fixed to the top of your screen.  I don’t
+like that, but I thought I’d show you anyway.  Everything else is pretty intuitive, just make sure you add the right
+class to your tags and you’re good to go.</p>
 
-<p>The div class sticky makes it so if you scroll down, the nav bar remains fixed to the top of your screen.  I don&rsquo;t
-like that, but I thought I&rsquo;d show you anyway.  Everything else is pretty intuitive, just make sure you add the right
-class to your tags and you&rsquo;re good to go.</p>
-
-<p>In all, Foundation is a quick way to make your website actually visually appealing in no time at all.  And if you&rsquo;re
+<p>In all, Foundation is a quick way to make your website actually visually appealing in no time at all.  And if you’re
 artistically retarded such as myself, it makes you passable for at least starving-artist status.</p>
+
 </div>
   
   
@@ -365,35 +433,33 @@ artistically retarded such as myself, it makes you passable for at least starvin
   </header>
 
 
-  <div class="entry-content"><p>I&rsquo;ve always been weirdly into maps and geography.  Back in 2010 I was introduced to Geocaching
+  <div class="entry-content"><p>I’ve always been weirdly into maps and geography.  Back in 2010 I was introduced to Geocaching
 and, from then on, suspciously looking around from tupperware was one of my new hobbies.  A week
-ago, I presented the web app I worked on for The Flatiron School&rsquo;s meetup.  The app showed the
+ago, I presented the web app I worked on for The Flatiron School’s meetup.  The app showed the
 restaurants with the most health code violations in a zip code.  I was able to implement a gem
 I found, called Geocoder, to convert addresses to geographic coordinates for use in the Google Maps
-API so I could show the exact location of offending restaurants on a map.  I didn&rsquo;t really know too
+API so I could show the exact location of offending restaurants on a map.  I didn’t really know too
 much about Geocoder and was only able to implement one method to find coordinates:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Geocoder</span><span class="o">.</span><span class="n">coordinates</span><span class="p">(</span><span class="s2">&quot;11 broadway, new york, ny&quot;</span><span class="p">)</span> <span class="c1">#=&gt; [40.7055269, -74.014346]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Geocoder</span><span class="o">.</span><span class="n">coordinates</span><span class="p">(</span><span class="s2">&quot;11 broadway, new york, ny&quot;</span><span class="p">)</span> <span class="c1">#=&gt; [40.7055269, -74.014346]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>But there is a much cooler way to use Geocoder: with ActiveRecord.</p>
 
-<p>If you want to geocode your table en masse, you can add both a latitude and longitude
+<p>If you want to geocode your table en masse, you can add both a latitude and longitude 
 column in your database table connected with ActiveRecord.  Then, in your model, add the following lines:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">extend</span> <span class="o">::</span><span class="ss">Geocoder</span><span class="p">:</span><span class="ss">:Model</span><span class="o">::</span><span class="no">ActiveRecord</span>
-</span><span class='line'><span class="n">geocoded_by</span> <span class="ss">:address</span>
-</span><span class='line'><span class="n">after_validation</span> <span class="ss">:geocode</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="kp">extend</span> <span class="o">::</span><span class="ss">Geocoder</span><span class="p">:</span><span class="ss">:Model</span><span class="o">::</span><span class="no">ActiveRecord</span>
+</span><span class="line"><span class="n">geocoded_by</span> <span class="ss">:address</span>
+</span><span class="line"><span class="n">after_validation</span> <span class="ss">:geocode</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>That first line apparently provides you with the methods you are using on the next two lines.  When you add
-the geocoded_by line, the geocoder uses the column you designate as the input to be geocoded.  I&rsquo;m not exactly
+the geocoded_by line, the geocoder uses the column you designate as the input to be geocoded.  I’m not exactly
 sure what after_validation does, but it seems like that it designates the direction of gecoding.  Meaning here
 we are specifying we want to convert an address into coordinates, as Geocoder also can convert coordinates into
 and address.</p>
@@ -401,61 +467,59 @@ and address.</p>
 <p>So each time I save an element in my table, the geocoder gets the address and fills in the latitude and longitude
 automatically.  I did all these, ran my program, and got this error:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Google Geocoding API error: over query limit.
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">Google Geocoding API error: over query limit.
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>You have apparently have to be gentle.  So I told my program to wait 5 seconds in-between each geocode so Google 
+wouldn’t be upset at me.  It may work with a smaller number of seconds, but 5 seemed to work fine for me.  </p>
 
-<p>You have apparently have to be gentle.  So I told my program to wait 5 seconds in-between each geocode so Google
-wouldn&rsquo;t be upset at me.  It may work with a smaller number of seconds, but 5 seemed to work fine for me.</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">seed_db</span>
+</span><span class="line">  <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="no">RestClient</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">))</span><span class="o">[</span><span class="s2">&quot;data&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class="line">    <span class="k">next</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">last</span> <span class="o">==</span> <span class="s2">&quot;Borough&quot;</span>
+</span><span class="line">    <span class="n">f</span> <span class="o">=</span> <span class="no">Firehouse</span><span class="o">.</span><span class="n">create</span>
+</span><span class="line">    <span class="n">f</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="mi">9</span><span class="o">]</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span><span class="si">}</span><span class="s2">, NY&quot;</span>
+</span><span class="line">    <span class="n">f</span><span class="o">.</span><span class="n">save</span>
+</span><span class="line">    <span class="nb">puts</span> <span class="s2">&quot;Geocoding: </span><span class="si">#{</span><span class="n">f</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">    <span class="nb">sleep</span> <span class="mi">5</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">seed_db</span>
-</span><span class='line'>  <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="no">RestClient</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">))</span><span class="o">[</span><span class="s2">&quot;data&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
-</span><span class='line'>    <span class="k">next</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">last</span> <span class="o">==</span> <span class="s2">&quot;Borough&quot;</span>
-</span><span class='line'>    <span class="n">f</span> <span class="o">=</span> <span class="no">Firehouse</span><span class="o">.</span><span class="n">create</span>
-</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="mi">9</span><span class="o">]</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span><span class="si">}</span><span class="s2">, NY&quot;</span>
-</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Geocoding: </span><span class="si">#{</span><span class="n">f</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>    <span class="nb">sleep</span> <span class="mi">5</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So we&rsquo;re good!  Now we have a database full of addresses and their coordinates.</p>
+<p>So we’re good!  Now we have a database full of addresses and their coordinates.</p>
 
 <p>One more thing I found cool with Geocoder was that you can pass it an external IP address and it also returns
-coordinates!  But don&rsquo;t think you can stay spying on everyone now, the coordinates that it returns have a margin
-of error which I found pretty significant for NYC, about a half a mile.  For the gem I&rsquo;m attempting to write, I
-have used the user&rsquo;s external IP address as the default starting location for directions to the nearest firehouse.</p>
+coordinates!  But don’t think you can stay spying on everyone now, the coordinates that it returns have a margin
+of error which I found pretty significant for NYC, about a half a mile.  For the gem I’m attempting to write, I
+have used the user’s external IP address as the default starting location for directions to the nearest firehouse.</p>
 
 <p>Speaking of which, I am attemping to use this program as an educational experience in my first gem.  Using the
 near function in Geocoder, I can pass geocoder a location (IP, physical address, landmark, etc.) and
 it can return the nearest location in our geocoded database.  I have the program working, but the transition
-into a gem has been difficult and clunky.  Integrating other gems and using bundler has proved to be a thorn in my
-gem creation&rsquo;s side.  This is the error I&rsquo;ve been receiving:</p>
+into a gem has been difficult and clunky.  Integrating other gems and using bundler has proved to be a thorn in my 
+gem creation’s side.  This is the error I’ve been receiving:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>/Users/caguthrie/.rvm/gems/ruby-2.0.0-p353/gems/bundler-1.5.2/lib/bundler/shared_helpers.rb:24:in <span class="sb">`</span>default_gemfile<span class="err">&#39;</span>: Could not locate Gemfile <span class="o">(</span>Bundler::GemfileNotFound<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">/Users/caguthrie/.rvm/gems/ruby-2.0.0-p353/gems/bundler-1.5.2/lib/bundler/shared_helpers.rb:24:in <span class="sb">`</span>default_gemfile<span class="err">&#39;</span>: Could not locate Gemfile <span class="o">(</span>Bundler::GemfileNotFound<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<p>I&rsquo;ve been pointing directly to the Gemfile in the gemspec and it doesn&rsquo;t seem to care.  Interestingly enough,
+<p>I’ve been pointing directly to the Gemfile in the gemspec and it doesn’t seem to care.  Interestingly enough,
 the gem works if I run it in the directory where my source files are.  However, it does not if I attempt
 to run it outside that folder.  The search continues, I will surely, shortly figure out the solution, then
-people everywhere around NYC can get google maps&#8217; walking directions to the nearest firehouse.  Soon enough.</p>
+people everywhere around NYC can get google maps’ walking directions to the nearest firehouse.  Soon enough.</p>
 
 <p>Wait for part 2 of this blog post when I finally figure out how to create a proper gem.</p>
+
 </div>
   
   
@@ -491,92 +555,71 @@ people everywhere around NYC can get google maps&#8217; walking directions to th
   </header>
 
 
-  <div class="entry-content"><p><em>The best revenge is massive success.<br>-Frank Sinatra</em><br><br>Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.  So come fly with me, let&#8217;s fly away &#8230;</p>
-
-
-<br><b><h3>Sinatra Splat</b></h3><br><p>Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/favorite_singer/*/favorite_album/*&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="c1"># example: /favorite_singer/frank_sinatra/favorite_album/come_fly_with_me</span>
-</span><span class='line'>  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;frank_sinatra&quot;, &quot;come_fly_with_me&quot;]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+  <div class="entry-content"><p><em>The best revenge is massive success.<br />-Frank Sinatra</em><br /><br />Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.  So come fly with me, let&#8217;s fly away &#8230;</p>
+<p><br /><b>&lt;h3&gt;Sinatra Splat</b>&lt;/h3&gt;<br />&lt;p&gt;Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:&lt;/p&gt;
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/favorite_singer/*/favorite_album/*&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="c1"># example: /favorite_singer/frank_sinatra/favorite_album/come_fly_with_me</span>
+</span><span class="line">  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;frank_sinatra&quot;, &quot;come_fly_with_me&quot;]</span>
+</span><span class="line"><span class="k">end</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 <p>Here, you can let your user go to any sub-path where your wildcards are and get those sub-path names back to you in a handy array using the :splat symbol key in the params hash.  This could be useful in a product catalog, or in any case where there could be a large number of keys that could return data from a database.  There are other useful ways to use splats in pathnames, like for downloads:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/download/*.*&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="c1"># goes to /download/path/file.zip</span>
-</span><span class='line'>  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;path/file&quot;, &quot;zip&quot;]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/download/*.*&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="c1"># goes to /download/path/file.zip</span>
+</span><span class="line">  <span class="n">params</span><span class="o">[</span><span class="ss">:splat</span><span class="o">]</span> <span class="c1"># =&gt; [&quot;path/file&quot;, &quot;zip&quot;]</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>If you wanted a custom page for your users to look at while they download a file, you could easily do something similar to that.  Sites like cnet.com and download.com may use Sinatra as they similar downloader pages.</p>
-
-
-<br><b><h3>Multiple gets for a sub-path</b></h3><br><p>Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at unnecessary complexity of the previous sentence, that may make zero sense to some people.  So, I have an easy example below:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/:cap&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">pass</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:cap</span><span class="o">].</span><span class="n">downcase</span> <span class="o">!=</span> <span class="s2">&quot;sacramento&quot;</span>
-</span><span class='line'>  <span class="s2">&quot;Correct!!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/*&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="s2">&quot;Your knowledge of 3rd grade US geography is disasterous!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<p><br /><b>&lt;h3&gt;Multiple gets for a sub-path</b>&lt;/h3&gt;<br />&lt;p&gt;Sometimes you want to have a specific sub-path case, with a catch-all, psuedo-else get method if a different sub-path is chosen.  Looking back at unnecessary complexity of the previous sentence, that may make zero sense to some people.  So, I have an easy example below:&lt;/p&gt;
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/:cap&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">pass</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:cap</span><span class="o">].</span><span class="n">downcase</span> <span class="o">!=</span> <span class="s2">&quot;sacramento&quot;</span>
+</span><span class="line">  <span class="s2">&quot;Correct!!&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">get</span> <span class="s1">&#39;/the_capital_of/california/*&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="s2">&quot;Your knowledge of 3rd grade US geography is disasterous!&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 <p>Using the pass method in sinatra, the rest of the logic in the first get block is not executed and the next get method fitting the path parameters is executed.  It&#8217;s another added bonus of the lazy ruby interpreter.</p>
+<p><br /><b>&lt;h3&gt;Browser Redirect</b>&lt;/h3&gt;<br />&lt;p&gt;Lastly, you may want to redirect a user to a different path after you’ve taken some action.  Maybe, for example, after you’ve filled out a form or shown a quick advertisment.  The redirect method is a quick way to do that, and you can implement it like so:</p>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/restricted_area&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="s2">&quot;Why are you here!? Go away!&quot;</span>
+</span><span class="line">  <span class="nb">sleep</span> <span class="mi">2</span>
+</span><span class="line">  <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">&#39;/public_area&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">get</span> <span class="s1">&#39;/public_area&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="s2">&quot;Welcome!&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<br><b><h3>Browser Redirect</b></h3><br><p>Lastly, you may want to redirect a user to a different path after you&#8217;ve taken some action.  Maybe, for example, after you&#8217;ve filled out a form or shown a quick advertisment.  The redirect method is a quick way to do that, and you can implement it like so:
+<p>So pull up a fine leather chair, a glass of scotch, and enjoy the classiness that Sinatra has to offer you.  If there’s a problem in a web app you need solving, old blue eyes has you covered.</p>
 
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/restricted_area&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="s2">&quot;Why are you here!? Go away!&quot;</span>
-</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">2</span>
-</span><span class='line'>  <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">&#39;/public_area&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/public_area&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="s2">&quot;Welcome!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So pull up a fine leather chair, a glass of scotch, and enjoy the classiness that Sinatra has to offer you.  If there&rsquo;s a problem in a web app you need solving, old blue eyes has you covered.</p>
 </div>
   
   
@@ -613,139 +656,112 @@ people everywhere around NYC can get google maps&#8217; walking directions to th
 
 
   <div class="entry-content"><p>Coming from lower-level languages, the vast spectrum of built-in classes, modules, and methods in Ruby is absolutely mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds functionality to the class that uses it.  Oh, and functionality there is.  The two most common objects that can call Enumerable methods are arrays and hashes.  It is robust and adds some methods that do exactly what you think they would.  For example:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">find</span>
-</span><span class='line'><span class="n">any?</span>
-</span><span class='line'><span class="kp">include</span><span class="p">?</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">find</span>
+</span><span class="line"><span class="n">any?</span>
+</span><span class="line"><span class="kp">include</span><span class="p">?</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>The functionality I have found most useful are the searching and sorting methods.  I&#8217;ll tell you about three of my favorites now.</p>
 
-
-<p><b><h3>sort</h3></b></p>
+<p><b>&lt;h3&gt;sort&lt;/h3&gt;</b></p>
 
 <p>The sort method might seem like a shy, simplistic wallflower, but, with the power of blocks in ruby, sort transforms into a something any high school prom king would tremble at the sight of.  Take this example:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">favorite_people</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="ss">:poet</span> <span class="o">=&gt;</span> <span class="s2">&quot;Walt Whitman&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">:baseball_player</span> <span class="o">=&gt;</span> <span class="s2">&quot;Tony Gwynn&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">:jeopardy_champion</span> <span class="o">=&gt;</span> <span class="s2">&quot;Ken Jennings&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">:billionaire</span> <span class="o">=&gt;</span> <span class="s2">&quot;Bill Gates&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">:dean</span> <span class="o">=&gt;</span> <span class="s2">&quot;Avi Flombaum&quot;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">favorite_people</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">    <span class="ss">:poet</span> <span class="o">=&gt;</span> <span class="s2">&quot;Walt Whitman&quot;</span><span class="p">,</span>
+</span><span class="line">    <span class="ss">:baseball_player</span> <span class="o">=&gt;</span> <span class="s2">&quot;Tony Gwynn&quot;</span><span class="p">,</span>
+</span><span class="line">    <span class="ss">:jeopardy_champion</span> <span class="o">=&gt;</span> <span class="s2">&quot;Ken Jennings&quot;</span><span class="p">,</span>
+</span><span class="line">    <span class="ss">:billionaire</span> <span class="o">=&gt;</span> <span class="s2">&quot;Bill Gates&quot;</span><span class="p">,</span>
+</span><span class="line">    <span class="ss">:dean</span> <span class="o">=&gt;</span> <span class="s2">&quot;Avi Flombaum&quot;</span>
+</span><span class="line">  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>Let&#8217;s say you have this hash of favorite people and wish to sort it into an array, based on alphabetical order of their last name.  Is that description of what I want to do longer than the code?</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">favorite_people</span><span class="o">.</span><span class="n">sort</span><span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span> <span class="n">a</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span> <span class="o">&lt;=&gt;</span> <span class="n">b</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#=&gt; [[:dean, &quot;Avi Flombaum&quot;],</span>
-</span><span class='line'><span class="c1">#   [:billionaire, &quot;Bill Gates&quot;],</span>
-</span><span class='line'><span class="c1">#   [:baseball_player, &quot;Tony Gwynn&quot;],</span>
-</span><span class='line'><span class="c1">#   [:jeopardy_champion, &quot;Ken Jennings&quot;],</span>
-</span><span class='line'><span class="c1">#   [:poet, &quot;Walt Whitman&quot;]]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">favorite_people</span><span class="o">.</span><span class="n">sort</span><span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span> <span class="n">a</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span> <span class="o">&lt;=&gt;</span> <span class="n">b</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">#=&gt; [[:dean, &quot;Avi Flombaum&quot;],</span>
+</span><span class="line"><span class="c1">#   [:billionaire, &quot;Bill Gates&quot;],</span>
+</span><span class="line"><span class="c1">#   [:baseball_player, &quot;Tony Gwynn&quot;],</span>
+</span><span class="line"><span class="c1">#   [:jeopardy_champion, &quot;Ken Jennings&quot;],</span>
+</span><span class="line"><span class="c1">#   [:poet, &quot;Walt Whitman&quot;]]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>Yep.</p>
 
 <p>When used on a hash, sort converts your hash to an array of arrays of length 2, where each sub-array is a key/value pair.  This is defined in the hash&#8217;s each method, a method I will talk more about a little later.  Enumerable&#8217;s sort function uses these return values to sort your input.  The great thing about the sort method is that you can sort it however you tell your program to.  No more iterating though your entire data structure.  This is even more relevant because if you have an object you would like to use with Enumerable, all you have to do is define an each method in your class which yields each value you would like Enumerable to operate on.</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DeliciousFood</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">Enumerable</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">yum</span>
-</span><span class='line'>    <span class="o">[</span><span class="s2">&quot;Tangerine&quot;</span><span class="p">,</span> <span class="s2">&quot;Burrito&quot;</span><span class="p">,</span> <span class="s2">&quot;Cake&quot;</span><span class="p">,</span> <span class="s2">&quot;Artisanal Pizza&quot;</span><span class="p">,</span> <span class="s2">&quot;Bacon Grease&quot;</span><span class="o">]</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">each</span>
-</span><span class='line'>    <span class="n">yum</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">y</span><span class="o">|</span>
-</span><span class='line'>      <span class="k">yield</span> <span class="n">y</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">DeliciousFood</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">sort</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span> <span class="n">a</span> <span class="o">&lt;=&gt;</span> <span class="n">b</span> <span class="p">}</span> <span class="c1">#=&gt; [&quot;Artisanal Pizza&quot;, &quot;Bacon Grease&quot;, &quot;Burrito&quot;, &quot;Cake&quot;, &quot;Tangerine&quot;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">DeliciousFood</span>
+</span><span class="line">
+</span><span class="line">  <span class="kp">include</span> <span class="no">Enumerable</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">yum</span>
+</span><span class="line">    <span class="o">[</span><span class="s2">&quot;Tangerine&quot;</span><span class="p">,</span> <span class="s2">&quot;Burrito&quot;</span><span class="p">,</span> <span class="s2">&quot;Cake&quot;</span><span class="p">,</span> <span class="s2">&quot;Artisanal Pizza&quot;</span><span class="p">,</span> <span class="s2">&quot;Bacon Grease&quot;</span><span class="o">]</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">each</span>
+</span><span class="line">    <span class="n">yum</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">y</span><span class="o">|</span>
+</span><span class="line">      <span class="k">yield</span> <span class="n">y</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="no">DeliciousFood</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">sort</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span> <span class="n">a</span> <span class="o">&lt;=&gt;</span> <span class="n">b</span> <span class="p">}</span> <span class="c1">#=&gt; [&quot;Artisanal Pizza&quot;, &quot;Bacon Grease&quot;, &quot;Burrito&quot;, &quot;Cake&quot;, &quot;Tangerine&quot;]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>You want your class to be Enumermazing?  Just like that, it&#8217;s as easy as defining an each method.</p>
 
-
-<p><b><h3>grep</h3></b></p>
+<p><b>&lt;h3&gt;grep&lt;/h3&gt;</b></p>
 
 <p>The method grep is, just as you command line monkeys would think, a function that allows you to search through your data and find what matches your search parameter(s).  Just like sort, and many other methods in Enumerable, grep can take a block to create your own custom searches.  Let&#8217;s return to our DeliciousFood class above and try searching for each piece data that includes the letter &#8220;k&#8221; or &#8220;z&#8221;, because I only eat food that contains at least one of those letters:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">DeliciousFood</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/(k|z)/</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="s2">&quot;I ate some &quot;</span> <span class="o">+</span> <span class="n">a</span> <span class="p">}</span> <span class="c1">#=&gt; [&quot;I ate some Cake&quot;, &quot;I ate some Artisanal Pizza&quot;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><b><h3>partition</h3></b></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">DeliciousFood</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/(k|z)/</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="s2">&quot;I ate some &quot;</span> <span class="o">+</span> <span class="n">a</span> <span class="p">}</span> <span class="c1">#=&gt; [&quot;I ate some Cake&quot;, &quot;I ate some Artisanal Pizza&quot;]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><b>&lt;h3&gt;partition&lt;/h3&gt;</b></p>
 
 <p>Lastly, a fun, easy, and quick way to put things into two different arrays.  The partition method takes in some data, and outputs it in an array of two arrays.  If the block passed into it evaluates as true, it gets placed in the first sub-array.  If not, it gets placed in the second sub-array.  Lets say I&#8217;m hungry but I&#8217;m confused about what to eat from my kitchen table:</p>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">food</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;Tangerine&quot;</span><span class="p">,</span> <span class="s2">&quot;Burrito&quot;</span><span class="p">,</span> <span class="s2">&quot;Cake&quot;</span><span class="p">,</span> <span class="s2">&quot;Artisanal Pizza&quot;</span><span class="p">,</span> <span class="s2">&quot;Bacon Grease&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">not_food</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;Concrete&quot;</span><span class="p">,</span> <span class="s2">&quot;Fedora&quot;</span><span class="p">,</span> <span class="s2">&quot;Silica Gel&quot;</span><span class="p">,</span> <span class="s2">&quot;Cigarette Butt&quot;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">my_kitchen_table</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;Concrete&quot;</span><span class="p">,</span> <span class="s2">&quot;Tangerine&quot;</span><span class="p">,</span> <span class="s2">&quot;Burrito&quot;</span><span class="p">,</span> <span class="s2">&quot;Fedora&quot;</span><span class="p">,</span> <span class="s2">&quot;Cake&quot;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="n">my_kitchen_table</span><span class="o">.</span><span class="n">partition</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="n">food</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="p">}</span> <span class="c1">#=&gt; [[&quot;Tangerine&quot;, &quot;Burrito&quot;, &quot;Cake&quot;],[&quot;Concrete&quot;,&quot;Fedora&quot;]]</span>
-</span><span class='line'><span class="nb">puts</span> <span class="n">output</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="c1">#=&gt; [&quot;Tangerine&quot;, &quot;Burrito&quot;, &quot;Cake&quot;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">food</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;Tangerine&quot;</span><span class="p">,</span> <span class="s2">&quot;Burrito&quot;</span><span class="p">,</span> <span class="s2">&quot;Cake&quot;</span><span class="p">,</span> <span class="s2">&quot;Artisanal Pizza&quot;</span><span class="p">,</span> <span class="s2">&quot;Bacon Grease&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="n">not_food</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;Concrete&quot;</span><span class="p">,</span> <span class="s2">&quot;Fedora&quot;</span><span class="p">,</span> <span class="s2">&quot;Silica Gel&quot;</span><span class="p">,</span> <span class="s2">&quot;Cigarette Butt&quot;</span><span class="o">]</span>
+</span><span class="line">
+</span><span class="line"><span class="n">my_kitchen_table</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;Concrete&quot;</span><span class="p">,</span> <span class="s2">&quot;Tangerine&quot;</span><span class="p">,</span> <span class="s2">&quot;Burrito&quot;</span><span class="p">,</span> <span class="s2">&quot;Fedora&quot;</span><span class="p">,</span> <span class="s2">&quot;Cake&quot;</span><span class="o">]</span>
+</span><span class="line">
+</span><span class="line"><span class="n">output</span> <span class="o">=</span> <span class="n">my_kitchen_table</span><span class="o">.</span><span class="n">partition</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="n">food</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="p">}</span> <span class="c1">#=&gt; [[&quot;Tangerine&quot;, &quot;Burrito&quot;, &quot;Cake&quot;],[&quot;Concrete&quot;,&quot;Fedora&quot;]]</span>
+</span><span class="line"><span class="nb">puts</span> <span class="n">output</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="c1">#=&gt; [&quot;Tangerine&quot;, &quot;Burrito&quot;, &quot;Cake&quot;]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>Thankfully Enumerable and partition saved me from eating concrete or my fedora.  What can&#8217;t Ruby do?</p>
-
 </div>
   
   
@@ -774,6 +790,10 @@ people everywhere around NYC can get google maps&#8217; walking directions to th
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/">Memoization and Why Does It Feel So Good to Optimize?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/04/passing-ruby-data-to-javascript/">Passing Ruby Data to Javascript</a>
       </li>
     
@@ -787,10 +807,6 @@ people everywhere around NYC can get google maps&#8217; walking directions to th
     
       <li class="post">
         <a href="/blog/2014/02/27/smooth-as-sinatra/">Smooth as Sinatra</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/12/enumberable-is-enumermazing/">Enumberable Is Enumermazing</a>
       </li>
     
   </ul>
