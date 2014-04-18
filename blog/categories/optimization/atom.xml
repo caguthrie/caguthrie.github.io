@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Optimization | chrisblogs]]></title>
   <link href="http://caguthrie.github.io/blog/categories/optimization/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-04-18T13:16:23-04:00</updated>
+  <updated>2014-04-18T13:17:09-04:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -53,7 +53,8 @@ end
 </code></p>
 
 <p>Here, we attempt to divide each number by each number smaller than it.  If we are calling this loop on n elements, then
-this will loop t times for every [latex]n_t[/latex], for a time complexity of <script type="math/tex">O(n^2)</script>.  </p>
+this will loop t times for every <script type="math/tex">n_t</script>, for a time complexity of
+<script type="math/tex">O(n^2)</script>.  </p>
 
 ]]></content>
   </entry>
