@@ -30,7 +30,6 @@ loop that looks particularly expensive:
 
 ```ruby
 def find_sum_of_divisors(num)
-  # can optimize this by going up to half of num
   sum = 0
   num.times do |i|
     sum += (i+1) if num % (i+1) == 0 && num != (i+1)
@@ -41,7 +40,7 @@ end
 
 Here, we attempt to divide each number by each number smaller than it.  If we are calling this loop on
 <script type="math/tex">n</script> elements, then this will loop <script type="math/tex">t</script> times
-for every<script type="math/tex">n_t</script>, for a time complexity of <script type="math/tex">O(n^2)</script>.  
+for every <script type="math/tex">n_t</script>, for a time complexity of <script type="math/tex">O(n^2)</script>.  
 
 As the problem states, we need to compare the sum of the proper divisors to the proper divisors of the sum itself.
 Therefore, we call the above method twice in this method:
@@ -66,9 +65,9 @@ This took 5.733192 seconds
 
 Ok, let's try to do better.  First of all, let's think of a math way to fix that find_sum_of_divisors method. No ruby
 magic here.  Since there are no integers less than 2 that divide into any number to come up with a proper divisor, all
-the numbers <script type="math/tex">a</script> given an <script type="math/tex">n</script> in
-<script type="math/tex">n>=a>n/2</script> do not need to be evaluated as those <script type="math/tex">a/n</script> will
-always be <script type="math/tex"><2</script>.  So instead of num.times, we can change it to:
+the numbers <script type="math/tex">a</script> given an <script type="math/tex">n</script> in 
+$n>=a>n/2$ do not need to be evaluated as those <script type="math/tex">a/n</script> will
+always be $<2$.  So instead of num.times, we can change it to:
 
 ```ruby
 def find_sum_of_divisors(num)
