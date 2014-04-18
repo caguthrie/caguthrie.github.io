@@ -4,7 +4,7 @@
   <title><![CDATA[chrisblogs]]></title>
   <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-04-18T13:47:27-04:00</updated>
+  <updated>2014-04-18T13:51:57-04:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -20,11 +20,11 @@
     <id>http://caguthrie.github.io/blog/2014/04/18/why-does-it-feel-so-good-to-optimize</id>
     <content type="html"><![CDATA[<p>Recently I was faced with a challenge from <a href="http://projecteuler.net/">Project Euler</a> and asked how I would
 best optimize the solution I wrote.  Thinking for a little bit, I made a few changes, but none were as interesting as
-as term that I had never heard before, but understood the concept: Memoization.</p>
+the term that I had never heard before, but understood the concept: Memoization.</p>
 
-<p>Memoization is the concept of storing a data in memory that you may reference again at a later time, instead of
+<p>Memoization is the idea of storing a data in memory available to be referenced again at a later time, instead of
 calling a function with parameters you have already passed it previously.  I’ll show you how we can use memoization
-and a little bit of logic to optimize a problem from Project Euler.</p>
+and a little bit of logic to optimize a different problem from Project Euler.</p>
 
 <p><strong>Project Euler Problem #21: Amicable Numbers</strong></p>
 
@@ -34,10 +34,14 @@ and a little bit of logic to optimize a problem from Project Euler.</p>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">Let d(n) be defined as the sum of proper divisors of n (numbers less than n which divide evenly into n).
-</span><span class="line">If d(a) = b and d(b) = a, where a ≠ b, then a and b are an amicable pair and each of a and b are called amicable numbers.
+</span><span class="line">If d(a) = b and d(b) = a, where a ≠ b, then a and b are an amicable pair
+</span><span class="line">and each of a and b are called amicable numbers.
 </span><span class="line">
-</span><span class="line">For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+</span><span class="line">For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110;
+</span><span class="line">therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
 </span><span class="line">
 </span><span class="line">Evaluate the sum of all the amicable numbers under 10000.</span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -97,8 +101,8 @@ Therefore, we call the above method twice in this method:</p>
 <p>Ok, let’s try to do better.  First of all, let’s think of a math way to fix that find_sum_of_divisors method. No ruby
 magic here.  Since there are no integers less than 2 that divide into any number to come up with a proper divisor, all
 the numbers <script type="math/tex">a</script> given an <script type="math/tex">n</script> in 
-$n\ge a\gt n/2$ do not need to be evaluated as those <script type="math/tex">a/n</script> will
-always be $\gt2$.  So instead of num.times, we can change it to:</p>
+$n\ge a\gt n/2$ do not need to be evaluated as those <script type="math/tex">n/a</script> will
+always be $\gt2$.  So instead of num.times in ruby, we can change it to:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -109,14 +113,14 @@ always be $\gt2$.  So instead of num.times, we can change it to:</p>
 <span class="line-number">7</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">find_sum_of_divisors</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
 </span><span class="line">  <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class="line">  <span class="p">(</span><span class="n">num</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class="line">  <span class="p">(</span><span class="n">num</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="c1"># num is now num/2</span>
 </span><span class="line">    <span class="n">sum</span> <span class="o">+=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">num</span> <span class="o">!=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 </span><span class="line">  <span class="k">end</span>
 </span><span class="line">  <span class="n">sum</span>
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>Now let’s try running the program:</p>
+<p>Now let’s try running the program again:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="bash"><span class="line">This took 2.88388 seconds
@@ -173,7 +177,6 @@ given number.  If we do, we can just use that data and not call the method, savi
 <p>Just under two seconds, awesome!  I’m sure there’s even more optimizations possible.  Submit a pull request to my code
 if you want to try.  You can check out my Github repo for the problem <a href="https://github.com/caguthrie/pe21">
 here</a>.</p>
-
 ]]></content>
   </entry>
   
