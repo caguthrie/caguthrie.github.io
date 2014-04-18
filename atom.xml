@@ -4,7 +4,7 @@
   <title><![CDATA[chrisblogs]]></title>
   <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-04-18T13:17:09-04:00</updated>
+  <updated>2014-04-18T13:40:18-04:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -63,9 +63,120 @@ loop that looks particularly expensive:</p>
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>Here, we attempt to divide each number by each number smaller than it.  If we are calling this loop on n elements, then
-this will loop t times for every <script type="math/tex">n_t</script>, for a time complexity of
-<script type="math/tex">O(n^2)</script>.  </p>
+<p>Here, we attempt to divide each number by each number smaller than it.  If we are calling this loop on
+<script type="math/tex">n</script> elements, then this will loop <script type="math/tex">t</script> times
+for every<script type="math/tex">n_t</script>, for a time complexity of <script type="math/tex">O(n^2)</script>.  </p>
+
+<p>As the problem states, we need to compare the sum of the proper divisors to the proper divisors of the sum itself.
+Therefore, we call the above method twice in this method:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">is_amicable?</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</span><span class="line">  <span class="n">a</span> <span class="o">=</span> <span class="n">find_sum_of_divisors</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</span><span class="line">  <span class="n">b</span> <span class="o">=</span> <span class="n">find_sum_of_divisors</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span><span class="line">  <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="n">b</span> <span class="o">&amp;&amp;</span> <span class="n">a</span> <span class="o">!=</span> <span class="n">b</span>
+</span><span class="line">    <span class="kp">true</span>
+</span><span class="line">  <span class="k">else</span>
+</span><span class="line">    <span class="kp">false</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>So, we wrote this program.  Let’s see how long it takes:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">This took 5.733192 seconds
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Ok, let’s try to do better.  First of all, let’s think of a math way to fix that find_sum_of_divisors method. No ruby
+magic here.  Since there are no integers less than 2 that divide into any number to come up with a proper divisor, all
+the numbers <script type="math/tex">a</script> given an <script type="math/tex">n</script> in
+<script type="math/tex">n&gt;=a&gt;n/2</script> do not need to be evaluated as those <script type="math/tex">a/n</script> will
+always be <script type="math/tex">&lt;2</script>.  So instead of num.times, we can change it to:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">find_sum_of_divisors</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</span><span class="line">  <span class="c1"># can optimize this by going up to half of num</span>
+</span><span class="line">  <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">  <span class="p">(</span><span class="n">num</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class="line">    <span class="n">sum</span> <span class="o">+=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">num</span> <span class="o">!=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">  <span class="n">sum</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Now let’s try running the program:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">This took 2.88388 seconds
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We’ve, predictably, sliced our running time in half.  Great!  But we can do better.  Remember memoization?  Let’s do
+that.</p>
+
+<p>When we run this problem, it is very possible that we will be running find_sum_of_divisors on the same number multiple
+times.  Because this is a posibility, we can try storing the result of each method call in a hash and referencing
+it if we need it again, instead of calling the same method again.</p>
+
+<p>To do this, let’s initialize an empty hash each time we instantiate a new Amicable object.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">max</span><span class="p">)</span>
+</span><span class="line">  <span class="vi">@max</span> <span class="o">=</span> <span class="n">max</span>
+</span><span class="line">  <span class="vi">@hash</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#&lt;--- Add this line</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Finally, every time we go to call the find_sum_of_divisors method, we should check to see if we already have for a
+given number.  If we do, we can just use that data and not call the method, saving valuable time:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">is_amicable?</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</span><span class="line">  <span class="vi">@hash</span><span class="o">[</span><span class="n">num</span><span class="o">]</span> <span class="o">||=</span> <span class="n">find_sum_of_divisors</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</span><span class="line">  <span class="vi">@hash</span><span class="o">[</span><span class="vi">@hash</span><span class="o">[</span><span class="n">num</span><span class="o">]]</span> <span class="o">||=</span> <span class="n">find_sum_of_divisors</span><span class="p">(</span><span class="vi">@hash</span><span class="o">[</span><span class="n">num</span><span class="o">]</span><span class="p">)</span>
+</span><span class="line">  <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="vi">@hash</span><span class="o">[</span><span class="vi">@hash</span><span class="o">[</span><span class="n">num</span><span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="vi">@hash</span><span class="o">[</span><span class="n">num</span><span class="o">]</span> <span class="o">!=</span> <span class="vi">@hash</span><span class="o">[</span><span class="vi">@hash</span><span class="o">[</span><span class="n">num</span><span class="o">]]</span>
+</span><span class="line">    <span class="kp">true</span>
+</span><span class="line">  <span class="k">else</span>
+</span><span class="line">    <span class="kp">false</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Great, now instead of calling a method, we can refernce data in a hash.  Let’s see how much faster we made it:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">This took 1.997799 seconds
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Just under two seconds, awesome!  I’m sure there’s even more optimizations possible.  Submit a pull request to my code
+if you want to try.  You can check out my Github repo for the problem <a href="https://github.com/caguthrie/pe21">
+here</a>.</p>
 
 ]]></content>
   </entry>
