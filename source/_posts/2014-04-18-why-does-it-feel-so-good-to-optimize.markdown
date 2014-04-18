@@ -72,7 +72,6 @@ always be <script type="math/tex"><2</script>.  So instead of num.times, we can 
 
 ```ruby
 def find_sum_of_divisors(num)
-  # can optimize this by going up to half of num
   sum = 0
   (num/2).times do |i|
     sum += (i+1) if num % (i+1) == 0 && num != (i+1)
