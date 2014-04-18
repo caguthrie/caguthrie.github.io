@@ -7,19 +7,21 @@ categories: Ruby, Math, Optimization
 ---
 Recently I was faced with a challenge from <a href="http://projecteuler.net/">Project Euler</a> and asked how I would
 best optimize the solution I wrote.  Thinking for a little bit, I made a few changes, but none were as interesting as
-as term that I had never heard before, but understood the concept: Memoization.
+the term that I had never heard before, but understood the concept: Memoization.
 
-Memoization is the concept of storing a data in memory that you may reference again at a later time, instead of
+Memoization is the idea of storing a data in memory available to be referenced again at a later time, instead of
 calling a function with parameters you have already passed it previously.  I'll show you how we can use memoization
-and a little bit of logic to optimize a problem from Project Euler.
+and a little bit of logic to optimize a different problem from Project Euler.
 
 <strong>Project Euler Problem #21: Amicable Numbers</strong>
 
 ```
 Let d(n) be defined as the sum of proper divisors of n (numbers less than n which divide evenly into n).
-If d(a) = b and d(b) = a, where a ≠ b, then a and b are an amicable pair and each of a and b are called amicable numbers.
+If d(a) = b and d(b) = a, where a ≠ b, then a and b are an amicable pair
+and each of a and b are called amicable numbers.
 
-For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110;
+therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
 
 Evaluate the sum of all the amicable numbers under 10000.
 ```
@@ -66,20 +68,20 @@ This took 5.733192 seconds
 Ok, let's try to do better.  First of all, let's think of a math way to fix that find_sum_of_divisors method. No ruby
 magic here.  Since there are no integers less than 2 that divide into any number to come up with a proper divisor, all
 the numbers <script type="math/tex">a</script> given an <script type="math/tex">n</script> in 
-$n\ge a\gt n/2$ do not need to be evaluated as those <script type="math/tex">a/n</script> will
-always be $\gt2$.  So instead of num.times, we can change it to:
+$n\ge a\gt n/2$ do not need to be evaluated as those <script type="math/tex">n/a</script> will
+always be $\gt2$.  So instead of num.times in ruby, we can change it to:
 
 ```ruby
 def find_sum_of_divisors(num)
   sum = 0
-  (num/2).times do |i|
+  (num/2).times do |i| # num is now num/2
     sum += (i+1) if num % (i+1) == 0 && num != (i+1)
   end
   sum
 end
 ```
 
-Now let's try running the program:
+Now let's try running the program again:
 
 ```bash
 This took 2.88388 seconds
@@ -125,6 +127,3 @@ This took 1.997799 seconds
 Just under two seconds, awesome!  I'm sure there's even more optimizations possible.  Submit a pull request to my code
 if you want to try.  You can check out my Github repo for the problem <a href="https://github.com/caguthrie/pe21">
 here</a>.
-
-
-
