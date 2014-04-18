@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Optimization | chrisblogs]]></title>
   <link href="http://caguthrie.github.io/blog/categories/optimization/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-04-18T13:40:18-04:00</updated>
+  <updated>2014-04-18T13:41:00-04:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -85,7 +85,6 @@ always be <script type="math/tex">&lt;2</script>.  So instead of num.times, we c
 
 <p><code>ruby
 def find_sum_of_divisors(num)
-  # can optimize this by going up to half of num
   sum = 0
   (num/2).times do |i|
     sum += (i+1) if num % (i+1) == 0 &amp;&amp; num != (i+1)
