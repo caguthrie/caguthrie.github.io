@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Math, | chrisblogs]]></title>
   <link href="http://caguthrie.github.io/blog/categories/math/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-04-18T13:41:00-04:00</updated>
+  <updated>2014-04-18T13:44:35-04:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -43,7 +43,6 @@ loop that looks particularly expensive:</p>
 
 <p><code>ruby
 def find_sum_of_divisors(num)
-  # can optimize this by going up to half of num
   sum = 0
   num.times do |i|
     sum += (i+1) if num % (i+1) == 0 &amp;&amp; num != (i+1)
@@ -54,7 +53,7 @@ end
 
 <p>Here, we attempt to divide each number by each number smaller than it.  If we are calling this loop on
 <script type="math/tex">n</script> elements, then this will loop <script type="math/tex">t</script> times
-for every<script type="math/tex">n_t</script>, for a time complexity of <script type="math/tex">O(n^2)</script>.  </p>
+for every <script type="math/tex">n_t</script>, for a time complexity of <script type="math/tex">O(n^2)</script>.  </p>
 
 <p>As the problem states, we need to compare the sum of the proper divisors to the proper divisors of the sum itself.
 Therefore, we call the above method twice in this method:</p>
@@ -79,9 +78,9 @@ This took 5.733192 seconds
 
 <p>Ok, let’s try to do better.  First of all, let’s think of a math way to fix that find_sum_of_divisors method. No ruby
 magic here.  Since there are no integers less than 2 that divide into any number to come up with a proper divisor, all
-the numbers <script type="math/tex">a</script> given an <script type="math/tex">n</script> in
-<script type="math/tex">n&gt;=a&gt;n/2</script> do not need to be evaluated as those <script type="math/tex">a/n</script> will
-always be <script type="math/tex">&lt;2</script>.  So instead of num.times, we can change it to:</p>
+the numbers <script type="math/tex">a</script> given an <script type="math/tex">n</script> in 
+$n&gt;=a&gt;n/2$ do not need to be evaluated as those <script type="math/tex">a/n</script> will
+always be $&lt;2$.  So instead of num.times, we can change it to:</p>
 
 <p><code>ruby
 def find_sum_of_divisors(num)
