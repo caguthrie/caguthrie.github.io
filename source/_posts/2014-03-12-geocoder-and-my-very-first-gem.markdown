@@ -3,7 +3,7 @@ layout: post
 title: "Geocoder and My Very First Gem Attempt Part 1"
 date: 2014-03-12 13:28:18 -0400
 comments: true
-categories: 
+categories: Ruby, Gems, Geocoder
 ---
 I've always been weirdly into maps and geography.  Back in 2010 I was introduced to Geocaching
 and, from then on, suspciously looking around from tupperware was one of my new hobbies.  A week

@@ -3,7 +3,7 @@ layout: post
 title: "Building a Solid Foundation"
 date: 2014-03-25 22:18:56 -0400
 comments: true
-categories: 
+categories: Ruby, HTML, CSS, Front-End, Foundation
 ---
 I'm a math guy, a numbers dude, and and analytical person at my core.  The one thing about web design that scared 
 me the most is the front-end.  Have you seen my artistic side?  One time I drew a stick figure and the paper exploded.
