@@ -16,7 +16,7 @@ this encrpyted message</a> using <a href="http://imgcdn.geocaching.com/cache/lar
 this fuzzy picture</a> and the coordinates N32° 40.990 W117° 11.025 as hints.  I knew the real location for the cache was 
 somewhere in the deserts of San Diego county, and I had to solve the puzzle to find the coordinates.  
 
-{% img left https://www.flickr.com/photos/fguthrie/14108703315 320 250 'Down into the abyss' %}
+{% img left https://farm8.staticflickr.com/7317/14108703315_8dee144405_z.jpg 320 250 'Down into the abyss' %}
 
 I had figured out the methodology to the decryption and that another word was required as a key.  From that, I knew that once I 
 had found the key, the manual process of decrypting that whole message could take hours.  Enter coding.  I wrote a program that 
@@ -29,7 +29,7 @@ You can find the program on Github <a href="https://github.com/caguthrie/tombrai
 I don't want to give anything away, but I eventually figured it out.  Anyone can figure it out, it isn't necessary to go to 
 those coordinates, so give it a shot and run it through my program if you think you've got it.  
 
-{% img right https://www.flickr.com/photos/fguthrie/13922089900 320 250 'In the cave' %}
+{% img right https://farm6.staticflickr.com/5502/13922089900_eaec5db590_z.jpg 320 250 'In the cave' %}
 
 The program was relatively simple, and all I did was extend the String class by adding a method that returned the ASCII value 
 of the charater.  This made the rest of the program easy, as it was just arithmetic from there on out.  
@@ -41,10 +41,10 @@ class String
   end  
 end
 ```
-{% img left https://www.flickr.com/photos/fguthrie/14109093254 320 250 'Found it!' %}
+{% img left https://farm3.staticflickr.com/2936/14109093254_9847367727_z.jpg 250 320 'Found it!' %}
 
 Once the puzzle was solved, the trek to the Arroyo Tapiado mud caves in the Anza-Borrego desert was a one filled with 
 anticipation.  After a gruling hike through the low ceilings and narrow passageways of this mud cave, we emerged, climbed up a 
 few more small mountains, and located the cache.  An amazing adventure all around.  An adventure with a big assist from code.
 
-{% img http://min.us/i/6oC7Id9ijSe1 890 280 Anza Borrego %}
+{% img http://i.minus.com/i6oC7Id9ijSe1.JPG 890 280 Anza Borrego %}
