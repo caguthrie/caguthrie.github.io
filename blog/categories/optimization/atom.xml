@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Optimization | chrisblogs]]></title>
   <link href="http://caguthrie.github.io/blog/categories/optimization/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-04-28T20:58:53-04:00</updated>
+  <updated>2014-05-04T21:53:46-07:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Memoization and Why Does It Feel So Good to Optimize?]]></title>
     <link href="http://caguthrie.github.io/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/"/>
-    <updated>2014-04-18T11:14:58-04:00</updated>
+    <updated>2014-04-18T08:14:58-07:00</updated>
     <id>http://caguthrie.github.io/blog/2014/04/18/why-does-it-feel-so-good-to-optimize</id>
     <content type="html"><![CDATA[<p>Recently I was faced with a challenge from <a href="http://projecteuler.net/">Project Euler</a> and asked how I would
 best optimize the solution I wrote.  Thinking for a little bit, I made a few changes, but none were as interesting as

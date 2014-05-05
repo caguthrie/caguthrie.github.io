@@ -4,7 +4,7 @@
   <title><![CDATA[chrisblogs]]></title>
   <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-04-28T20:58:53-04:00</updated>
+  <updated>2014-05-04T21:53:46-07:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -14,9 +14,64 @@
 
   
   <entry>
+    <title type="html"><![CDATA[I Programed My Way Into a Mud Cave]]></title>
+    <link href="http://caguthrie.github.io/blog/2014/05/04/i-programed-my-way-into-a-mud-cave/"/>
+    <updated>2014-05-04T16:59:46-07:00</updated>
+    <id>http://caguthrie.github.io/blog/2014/05/04/i-programed-my-way-into-a-mud-cave</id>
+    <content type="html"><![CDATA[<p>I’m a big fan of Geocaching.  If you are unfamilar with it, it’s a worldwide activity, where by using a GPS you can search out 
+hidden containers.  These containers contain a logbook and usually other small toys and trinkets.  There are over a million
+geocaches worldwide in over 200 countries and territories.  Learn more about it <a href="http://www.geocaching.com">here
+</a>.</p>
+
+<p>This post is about geocaching, programming, and the surprise I found when I was able to make them intersect.  A special “puzzle” 
+geocache that I came across required you to unscramble <a href="http://imgcdn.geocaching.com/cache/large/5fde6914-cd6d-4869-b4b9-57ccb20bdfde.jpg">
+this encrpyted message</a> using <a href="http://imgcdn.geocaching.com/cache/large/492970f4-9a6b-40df-a038-610204ff92f5.jpg">
+this fuzzy picture</a> and the coordinates N32° 40.990 W117° 11.025 as hints.  I knew the real location for the cache was 
+somewhere in the deserts of San Diego county, and I had to solve the puzzle to find the coordinates.  </p>
+
+<p><img class="left" src="https://www.flickr.com/photos/fguthrie/14108703315" width="320" height="250" title="'Down into the abyss'" /></p>
+
+<p>I had figured out the methodology to the decryption and that another word was required as a key.  From that, I knew that once I 
+had found the key, the manual process of decrypting that whole message could take hours.  Enter coding.  I wrote a program that 
+accepted any key and decoded the message with the inputted key.  Not yet knowing what the key was, I attempted to cheat and 
+interate through the entire dictionary to see if anything comprehensible was returned.  That failed, and my corner cutting 
+mission was thwarted.  Therefore, I knew that the key was not a normal dictionary word.  </p>
+
+<p>You can find the program on Github <a href="https://github.com/caguthrie/tombraider_geocache">here</a>.</p>
+
+<p>I don’t want to give anything away, but I eventually figured it out.  Anyone can figure it out, it isn’t necessary to go to 
+those coordinates, so give it a shot and run it through my program if you think you’ve got it.  </p>
+
+<p><img class="right" src="https://www.flickr.com/photos/fguthrie/13922089900" width="320" height="250" title="'In the cave'" /></p>
+
+<p>The program was relatively simple, and all I did was extend the String class by adding a method that returned the ASCII value 
+of the charater.  This made the rest of the program easy, as it was just arithmetic from there on out.  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">String</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">to_num</span>
+</span><span class="line">    <span class="nb">self</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">bytes</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><img class="left" src="https://www.flickr.com/photos/fguthrie/14109093254" width="320" height="250" title="'Found it!'" /></p>
+
+<p>Once the puzzle was solved, the trek to the Arroyo Tapiado mud caves in the Anza-Borrego desert was a one filled with 
+anticipation.  After a gruling hike through the low ceilings and narrow passageways of this mud cave, we emerged, climbed up a 
+few more small mountains, and located the cache.  An amazing adventure all around.  An adventure with a big assist from code.</p>
+
+<p><img src="http://min.us/i/6oC7Id9ijSe1" width="890" height="280" title="Anza Borrego" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Memoization and Why Does It Feel So Good to Optimize?]]></title>
     <link href="http://caguthrie.github.io/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/"/>
-    <updated>2014-04-18T11:14:58-04:00</updated>
+    <updated>2014-04-18T08:14:58-07:00</updated>
     <id>http://caguthrie.github.io/blog/2014/04/18/why-does-it-feel-so-good-to-optimize</id>
     <content type="html"><![CDATA[<p>Recently I was faced with a challenge from <a href="http://projecteuler.net/">Project Euler</a> and asked how I would
 best optimize the solution I wrote.  Thinking for a little bit, I made a few changes, but none were as interesting as
@@ -183,7 +238,7 @@ here</a>.</p>
   <entry>
     <title type="html"><![CDATA[Passing Ruby Data to Javascript]]></title>
     <link href="http://caguthrie.github.io/blog/2014/04/04/passing-ruby-data-to-javascript/"/>
-    <updated>2014-04-04T15:36:42-04:00</updated>
+    <updated>2014-04-04T12:36:42-07:00</updated>
     <id>http://caguthrie.github.io/blog/2014/04/04/passing-ruby-data-to-javascript</id>
     <content type="html"><![CDATA[<p>Using more front-end APIs and frameworks, I’ve found it useful to be able to, at times, pass data from ruby to my
 Javascript files.  The first time I ran into this problem was in <a href="http://avoid.caguthrie.com">Avoid</a>, the
@@ -240,7 +295,7 @@ files.</p>
   <entry>
     <title type="html"><![CDATA[Building a Solid Foundation]]></title>
     <link href="http://caguthrie.github.io/blog/2014/03/25/building-a-solid-foundation/"/>
-    <updated>2014-03-25T22:18:56-04:00</updated>
+    <updated>2014-03-25T19:18:56-07:00</updated>
     <id>http://caguthrie.github.io/blog/2014/03/25/building-a-solid-foundation</id>
     <content type="html"><![CDATA[<p>I’m a math guy, a numbers dude, and and analytical person at my core.  The one thing about web design that scared 
 me the most is the front-end.  Have you seen my artistic side?  One time I drew a stick figure and the paper exploded.
@@ -371,7 +426,7 @@ artistically retarded such as myself, it makes you passable for at least starvin
   <entry>
     <title type="html"><![CDATA[Geocoder and My Very First Gem Attempt Part 1]]></title>
     <link href="http://caguthrie.github.io/blog/2014/03/12/geocoder-and-my-very-first-gem/"/>
-    <updated>2014-03-12T13:28:18-04:00</updated>
+    <updated>2014-03-12T10:28:18-07:00</updated>
     <id>http://caguthrie.github.io/blog/2014/03/12/geocoder-and-my-very-first-gem</id>
     <content type="html"><![CDATA[<p>I’ve always been weirdly into maps and geography.  Back in 2010 I was introduced to Geocaching
 and, from then on, suspciously looking around from tupperware was one of my new hobbies.  A week
@@ -466,7 +521,7 @@ people everywhere around NYC can get google maps’ walking directions to the ne
   <entry>
     <title type="html"><![CDATA[Smooth as Sinatra]]></title>
     <link href="http://caguthrie.github.io/blog/2014/02/27/smooth-as-sinatra/"/>
-    <updated>2014-02-27T11:10:24-05:00</updated>
+    <updated>2014-02-27T08:10:24-08:00</updated>
     <id>http://caguthrie.github.io/blog/2014/02/27/smooth-as-sinatra</id>
     <content type="html"><![CDATA[<p><em>The best revenge is massive success.<br />-Frank Sinatra</em><br /><br />Even in death, Sinatra is continuing to make people swoon.  Sinatra is a web framework for Ruby applications and it makes creating and deploying them super simple.  As a Sinatra beginner, I have been looking into the documentation to find some neat tricks with this framework and I&#8217;d like to share them with you.  So come fly with me, let&#8217;s fly away &#8230;</p>
 <p><br /><b>&lt;h3&gt;Sinatra Splat</b>&lt;/h3&gt;<br />&lt;p&gt;Sintra is flexible in that there are many ways to implement wildcards in pathnames.  For example:&lt;/p&gt;
@@ -539,7 +594,7 @@ people everywhere around NYC can get google maps’ walking directions to the ne
   <entry>
     <title type="html"><![CDATA[Enumberable Is Enumermazing]]></title>
     <link href="http://caguthrie.github.io/blog/2014/02/12/enumberable-is-enumermazing/"/>
-    <updated>2014-02-12T13:35:30-05:00</updated>
+    <updated>2014-02-12T10:35:30-08:00</updated>
     <id>http://caguthrie.github.io/blog/2014/02/12/enumberable-is-enumermazing</id>
     <content type="html"><![CDATA[<p>Coming from lower-level languages, the vast spectrum of built-in classes, modules, and methods in Ruby is absolutely mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds functionality to the class that uses it.  Oh, and functionality there is.  The two most common objects that can call Enumerable methods are arrays and hashes.  It is robust and adds some methods that do exactly what you think they would.  For example:</p>
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>

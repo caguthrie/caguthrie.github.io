@@ -24,8 +24,7 @@ MathJax.Hub.Config({
   <meta name="author" content="Chris Guthrie">
 
   
-  <meta name="description" content="Recently I was faced with a challenge from Project Euler and asked how I would
-best optimize the solution I wrote. Thinking for a little bit, I made &hellip;">
+  <meta name="description" content="I’m a big fan of Geocaching. If you are unfamilar with it, it’s a worldwide activity, where by using a GPS you can search out hidden containers. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +84,88 @@ best optimize the solution I wrote. Thinking for a little bit, I made &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/05/04/i-programed-my-way-into-a-mud-cave/">I Programed My Way Into a Mud Cave</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-04T16:59:46-07:00" pubdate data-updated="true">May 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I’m a big fan of Geocaching.  If you are unfamilar with it, it’s a worldwide activity, where by using a GPS you can search out 
+hidden containers.  These containers contain a logbook and usually other small toys and trinkets.  There are over a million
+geocaches worldwide in over 200 countries and territories.  Learn more about it <a href="http://www.geocaching.com">here
+</a>.</p>
+
+<p>This post is about geocaching, programming, and the surprise I found when I was able to make them intersect.  A special “puzzle” 
+geocache that I came across required you to unscramble <a href="http://imgcdn.geocaching.com/cache/large/5fde6914-cd6d-4869-b4b9-57ccb20bdfde.jpg">
+this encrpyted message</a> using <a href="http://imgcdn.geocaching.com/cache/large/492970f4-9a6b-40df-a038-610204ff92f5.jpg">
+this fuzzy picture</a> and the coordinates N32° 40.990 W117° 11.025 as hints.  I knew the real location for the cache was 
+somewhere in the deserts of San Diego county, and I had to solve the puzzle to find the coordinates.  </p>
+
+<p><img class="left" src="https://www.flickr.com/photos/fguthrie/14108703315" width="320" height="250" title="'Down into the abyss'" /></p>
+
+<p>I had figured out the methodology to the decryption and that another word was required as a key.  From that, I knew that once I 
+had found the key, the manual process of decrypting that whole message could take hours.  Enter coding.  I wrote a program that 
+accepted any key and decoded the message with the inputted key.  Not yet knowing what the key was, I attempted to cheat and 
+interate through the entire dictionary to see if anything comprehensible was returned.  That failed, and my corner cutting 
+mission was thwarted.  Therefore, I knew that the key was not a normal dictionary word.  </p>
+
+<p>You can find the program on Github <a href="https://github.com/caguthrie/tombraider_geocache">here</a>.</p>
+
+<p>I don’t want to give anything away, but I eventually figured it out.  Anyone can figure it out, it isn’t necessary to go to 
+those coordinates, so give it a shot and run it through my program if you think you’ve got it.  </p>
+
+<p><img class="right" src="https://www.flickr.com/photos/fguthrie/13922089900" width="320" height="250" title="'In the cave'" /></p>
+
+<p>The program was relatively simple, and all I did was extend the String class by adding a method that returned the ASCII value 
+of the charater.  This made the rest of the program easy, as it was just arithmetic from there on out.  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">String</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">to_num</span>
+</span><span class="line">    <span class="nb">self</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">bytes</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><img class="left" src="https://www.flickr.com/photos/fguthrie/14109093254" width="320" height="250" title="'Found it!'" /></p>
+
+<p>Once the puzzle was solved, the trek to the Arroyo Tapiado mud caves in the Anza-Borrego desert was a one filled with 
+anticipation.  After a gruling hike through the low ceilings and narrow passageways of this mud cave, we emerged, climbed up a 
+few more small mountains, and located the cache.  An amazing adventure all around.  An adventure with a big assist from code.</p>
+
+<p><img src="http://min.us/i/6oC7Id9ijSe1" width="890" height="280" title="Anza Borrego" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/">Memoization and Why Does It Feel So Good to Optimize?</a></h1>
     
     
@@ -101,7 +182,7 @@ best optimize the solution I wrote. Thinking for a little bit, I made &hellip;">
   
 
 
-<time datetime="2014-04-18T11:14:58-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+<time datetime="2014-04-18T08:14:58-07:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
         
       </p>
     
@@ -295,7 +376,7 @@ here</a>.</p>
   
 
 
-<time datetime="2014-04-04T15:36:42-04:00" pubdate data-updated="true">Apr 4<span>th</span>, 2014</time>
+<time datetime="2014-04-04T12:36:42-07:00" pubdate data-updated="true">Apr 4<span>th</span>, 2014</time>
         
       </p>
     
@@ -379,7 +460,7 @@ files.</p>
   
 
 
-<time datetime="2014-03-25T22:18:56-04:00" pubdate data-updated="true">Mar 25<span>th</span>, 2014</time>
+<time datetime="2014-03-25T19:18:56-07:00" pubdate data-updated="true">Mar 25<span>th</span>, 2014</time>
         
       </p>
     
@@ -537,7 +618,7 @@ artistically retarded such as myself, it makes you passable for at least starvin
   
 
 
-<time datetime="2014-03-12T13:28:18-04:00" pubdate data-updated="true">Mar 12<span>th</span>, 2014</time>
+<time datetime="2014-03-12T10:28:18-07:00" pubdate data-updated="true">Mar 12<span>th</span>, 2014</time>
         
       </p>
     
@@ -659,7 +740,7 @@ people everywhere around NYC can get google maps’ walking directions to the ne
   
 
 
-<time datetime="2014-02-27T11:10:24-05:00" pubdate data-updated="true">Feb 27<span>th</span>, 2014</time>
+<time datetime="2014-02-27T08:10:24-08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2014</time>
         
       </p>
     
@@ -759,7 +840,7 @@ people everywhere around NYC can get google maps’ walking directions to the ne
   
 
 
-<time datetime="2014-02-12T13:35:30-05:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
+<time datetime="2014-02-12T10:35:30-08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
         
       </p>
     
@@ -901,6 +982,10 @@ people everywhere around NYC can get google maps’ walking directions to the ne
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/05/04/i-programed-my-way-into-a-mud-cave/">I Programed My Way Into a Mud Cave</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/">Memoization and Why Does It Feel So Good to Optimize?</a>
       </li>
     
@@ -914,10 +999,6 @@ people everywhere around NYC can get google maps’ walking directions to the ne
     
       <li class="post">
         <a href="/blog/2014/03/12/geocoder-and-my-very-first-gem/">Geocoder and My Very First Gem Attempt Part 1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/27/smooth-as-sinatra/">Smooth as Sinatra</a>
       </li>
     
   </ul>
