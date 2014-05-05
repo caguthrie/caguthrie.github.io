@@ -4,7 +4,7 @@
   <title><![CDATA[chrisblogs]]></title>
   <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-05-04T22:02:32-07:00</updated>
+  <updated>2014-05-04T22:04:23-07:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -20,14 +20,10 @@
     <id>http://caguthrie.github.io/blog/2014/05/04/i-programed-my-way-into-a-mud-cave</id>
     <content type="html"><![CDATA[<p>I’m a big fan of Geocaching.  If you are unfamiliar with it, it’s a worldwide activity, where by using a GPS you can search out 
 hidden containers.  These containers contain a logbook and usually other small toys and trinkets.  There are over a million
-geocaches worldwide in over 200 countries and territories.  Learn more about it <a href="http://www.geocaching.com">here
-</a>.</p>
+geocaches worldwide in over 200 countries and territories.  Learn more about it <a href="http://www.geocaching.com">here</a>.</p>
 
 <p>This post is about geocaching, programming, and the surprise I found when I was able to make them intersect.  A special “puzzle” 
-geocache that I came across required you to unscramble <a href="http://imgcdn.geocaching.com/cache/large/5fde6914-cd6d-4869-b4b9-57ccb20bdfde.jpg">
-this encrypted message</a> using <a href="http://imgcdn.geocaching.com/cache/large/492970f4-9a6b-40df-a038-610204ff92f5.jpg">
-this fuzzy picture</a> and the coordinates N32° 40.990 W117° 11.025 as hints.  I knew the real location for the cache was 
-somewhere in the deserts of San Diego county, and I had to solve the puzzle to find the coordinates.  </p>
+geocache that I came across required you to unscramble <a href="http://imgcdn.geocaching.com/cache/large/5fde6914-cd6d-4869-b4b9-57ccb20bdfde.jpg">this encrypted message</a> using <a href="http://imgcdn.geocaching.com/cache/large/492970f4-9a6b-40df-a038-610204ff92f5.jpg">this fuzzy picture</a> and the coordinates N32° 40.990 W117° 11.025 as hints.  I knew the real location for the cache was somewhere in the deserts of San Diego county, and I had to solve the puzzle to find the coordinates.  </p>
 
 <p><img class="left" src="https://farm8.staticflickr.com/7317/14108703315_8dee144405_z.jpg" width="320" height="250" title="'Down into the abyss'" /></p>
 
