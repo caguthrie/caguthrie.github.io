@@ -4,7 +4,7 @@
   <title><![CDATA[chrisblogs]]></title>
   <link href="http://caguthrie.github.io/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-05-04T21:53:46-07:00</updated>
+  <updated>2014-05-04T21:58:56-07:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -29,7 +29,7 @@ this encrpyted message</a> using <a href="http://imgcdn.geocaching.com/cache/lar
 this fuzzy picture</a> and the coordinates N32° 40.990 W117° 11.025 as hints.  I knew the real location for the cache was 
 somewhere in the deserts of San Diego county, and I had to solve the puzzle to find the coordinates.  </p>
 
-<p><img class="left" src="https://www.flickr.com/photos/fguthrie/14108703315" width="320" height="250" title="'Down into the abyss'" /></p>
+<p><img class="left" src="https://farm8.staticflickr.com/7317/14108703315_8dee144405_z.jpg" width="320" height="250" title="'Down into the abyss'" /></p>
 
 <p>I had figured out the methodology to the decryption and that another word was required as a key.  From that, I knew that once I 
 had found the key, the manual process of decrypting that whole message could take hours.  Enter coding.  I wrote a program that 
@@ -42,7 +42,7 @@ mission was thwarted.  Therefore, I knew that the key was not a normal dictionar
 <p>I don’t want to give anything away, but I eventually figured it out.  Anyone can figure it out, it isn’t necessary to go to 
 those coordinates, so give it a shot and run it through my program if you think you’ve got it.  </p>
 
-<p><img class="right" src="https://www.flickr.com/photos/fguthrie/13922089900" width="320" height="250" title="'In the cave'" /></p>
+<p><img class="right" src="https://farm6.staticflickr.com/5502/13922089900_eaec5db590_z.jpg" width="320" height="250" title="'In the cave'" /></p>
 
 <p>The program was relatively simple, and all I did was extend the String class by adding a method that returned the ASCII value 
 of the charater.  This made the rest of the program easy, as it was just arithmetic from there on out.  </p>
@@ -58,13 +58,13 @@ of the charater.  This made the rest of the program easy, as it was just arithme
 </span><span class="line">  <span class="k">end</span>
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-<p><img class="left" src="https://www.flickr.com/photos/fguthrie/14109093254" width="320" height="250" title="'Found it!'" /></p>
+<p><img class="left" src="https://farm3.staticflickr.com/2936/14109093254_9847367727_z.jpg" width="250" height="320" title="'Found it!'" /></p>
 
 <p>Once the puzzle was solved, the trek to the Arroyo Tapiado mud caves in the Anza-Borrego desert was a one filled with 
 anticipation.  After a gruling hike through the low ceilings and narrow passageways of this mud cave, we emerged, climbed up a 
 few more small mountains, and located the cache.  An amazing adventure all around.  An adventure with a big assist from code.</p>
 
-<p><img src="http://min.us/i/6oC7Id9ijSe1" width="890" height="280" title="Anza Borrego" /></p>
+<p><img src="http://i.minus.com/i6oC7Id9ijSe1.JPG" width="890" height="280" title="Anza Borrego" /></p>
 ]]></content>
   </entry>
   
