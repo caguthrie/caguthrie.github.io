@@ -6,12 +6,11 @@ comments: true
 categories: Ruby, Math, Optimization
 ---
 Recently I was faced with a challenge from <a href="http://projecteuler.net/">Project Euler</a> and asked how I would
-best optimize the solution I wrote.  Thinking for a little bit, I made a few changes, but none were as interesting as
-the term that I had never heard before, but understood the concept: Memoization.
+best optimize the solution I wrote.  Thinking for a little bit, I made a few changes, but none were as efficient as memoization.
 
-Memoization is the idea of storing a data in memory available to be referenced again at a later time, instead of
-calling a function with parameters you have already passed it previously.  I'll show you how we can use memoization
-and a little bit of logic to optimize a different problem from Project Euler.
+Memoization is the idea of storing data in memory so it is available to be referenced again at a later time, instead of
+running logic that you have already ran with the same inputs.  I'll show you how we can use memoization and a little bit of 
+basic math to optimize a different problem from Project Euler.
 
 <strong>Project Euler Problem #21: Amicable Numbers</strong>
 
