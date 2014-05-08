@@ -2,48 +2,48 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://caguthrie.github.io/blog/2014/02/12/enumberable-is-enumermazing/</loc>
-        <lastmod>2014-04-18T10:07:19-07:00</lastmod>
+        <lastmod>2014-04-18T13:07:19-04:00</lastmod>
     </url>
     <url>
         <loc>http://caguthrie.github.io/blog/2014/02/27/smooth-as-sinatra/</loc>
-        <lastmod>2014-04-18T10:07:19-07:00</lastmod>
+        <lastmod>2014-04-18T13:07:19-04:00</lastmod>
     </url>
     <url>
         <loc>http://caguthrie.github.io/blog/2014/03/12/geocoder-and-my-very-first-gem/</loc>
-        <lastmod>2014-04-18T10:07:19-07:00</lastmod>
+        <lastmod>2014-04-18T13:07:19-04:00</lastmod>
     </url>
     <url>
         <loc>http://caguthrie.github.io/blog/2014/03/25/building-a-solid-foundation/</loc>
-        <lastmod>2014-04-18T10:07:19-07:00</lastmod>
+        <lastmod>2014-04-18T13:07:19-04:00</lastmod>
     </url>
     <url>
         <loc>http://caguthrie.github.io/blog/2014/04/04/passing-ruby-data-to-javascript/</loc>
-        <lastmod>2014-04-18T10:07:19-07:00</lastmod>
+        <lastmod>2014-04-18T13:07:19-04:00</lastmod>
     </url>
     <url>
         <loc>
             http://caguthrie.github.io/blog/2014/04/18/why-does-it-feel-so-good-to-optimize/
         </loc>
-        <lastmod>2014-04-18T10:51:24-07:00</lastmod>
+        <lastmod>2014-05-08T10:20:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://caguthrie.github.io/blog/2014/05/04/i-programed-my-way-into-a-mud-cave/</loc>
-        <lastmod>2014-05-04T22:03:52-07:00</lastmod>
+        <lastmod>2014-05-05T01:03:52-04:00</lastmod>
     </url>
     <url>
         <loc>http://caguthrie.github.io/about/</loc>
-        <lastmod>2014-05-04T22:03:52-07:00</lastmod>
+        <lastmod>2014-05-08T10:20:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://caguthrie.github.io/blog/archives/</loc>
-        <lastmod>2014-05-04T22:03:52-07:00</lastmod>
+        <lastmod>2014-05-08T10:20:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://caguthrie.github.io/</loc>
-        <lastmod>2014-05-04T22:03:52-07:00</lastmod>
+        <lastmod>2014-05-08T10:20:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://caguthrie.github.io/robots.txt</loc>
-        <lastmod>2014-02-12T13:10:22-08:00</lastmod>
+        <lastmod>2014-02-12T16:10:22-05:00</lastmod>
     </url>
 </urlset>

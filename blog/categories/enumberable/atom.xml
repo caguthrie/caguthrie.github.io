@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Enumberable | chrisblogs]]></title>
   <link href="http://caguthrie.github.io/blog/categories/enumberable/atom.xml" rel="self"/>
   <link href="http://caguthrie.github.io/"/>
-  <updated>2014-05-04T22:04:23-07:00</updated>
+  <updated>2014-05-08T10:21:16-04:00</updated>
   <id>http://caguthrie.github.io/</id>
   <author>
     <name><![CDATA[Chris Guthrie]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Enumberable Is Enumermazing]]></title>
     <link href="http://caguthrie.github.io/blog/2014/02/12/enumberable-is-enumermazing/"/>
-    <updated>2014-02-12T10:35:30-08:00</updated>
+    <updated>2014-02-12T13:35:30-05:00</updated>
     <id>http://caguthrie.github.io/blog/2014/02/12/enumberable-is-enumermazing</id>
     <content type="html"><![CDATA[<p>Coming from lower-level languages, the vast spectrum of built-in classes, modules, and methods in Ruby is absolutely mind-blowing.  One of the most amazing of these is Enumerable.  Enumerable is a mixin, which means that it adds functionality to the class that uses it.  Oh, and functionality there is.  The two most common objects that can call Enumerable methods are arrays and hashes.  It is robust and adds some methods that do exactly what you think they would.  For example:</p>
 <p><code>ruby
